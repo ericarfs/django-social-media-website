@@ -1,1 +1,1 @@
-# django-social-media-website
+# Question and Answer social website
