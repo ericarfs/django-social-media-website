@@ -1,0 +1,60 @@
+{% extends "base_generic.html" %}
+
+{% block title %} test Profile {% endblock title %}
+{% block content %}
+
+
+<div class="profile-header">
+
+</div>
+
+<div class="profile-info">
+  <div class= "profile-username"> 
+    <b>{{username}}</b>
+  </div>
+  <div class= "profile-teste"> 
+
+  </div>
+  <div class= "profile-btn"> 
+
+  </div>
+
+</div>
+
+{%if userFound == "false" %}
+  <div class="user-not-found">
+    <b>User not found!</b>
+  </div>
+
+{%endif%}
+
+
+{%for post in profile.get_my_posts%}
+
+<div class="post">
+    <div class="post-question">
+        {{post.answer.question}}</br>
+        <span class="question-author">
+          {%if post.answer.question_author%}
+          <a href="{% url 'profiles:profile-detail' post.answer.question_author %}"> {{post.answer.question_author}} </a>
+          {%else%}
+            Anonymous
+          {%endif%}
+        </span>
+        </br>
+        
+    </div>
+    <div class="post-answer">
+      {{post.answer}} </br>
+      <span class="answer-author">
+        <a href="{% url 'profiles:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a></br>
+      </span>
+      
+    </div>
+    
+      
+      
+</div>
+
+{%endfor%}
+{% endblock %}

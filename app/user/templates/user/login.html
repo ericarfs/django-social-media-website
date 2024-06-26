@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %} Login {% endblock %}
+
+{% block form_title %}Login{% endblock%}
+{%block form_redirect%}Not a member? <a href="{% url 'user:signup' %}">Create an account!</a>{%endblock%}
+{% block form %}
+
+{% if form_login.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+    
+                <div class="form-group">
+                    
+                    <label>Username </label>
+                    {{form_login.username}}
+                    {{form_login.username.errors}}
+                </div>
+            
+                <div class="form-group">
+                    <label>Password </label>
+                    {{form_login.password}}
+                    {{form_login.password.errors}}
+                </div>
+    
+                <div class="form-buttons">
+                    <input type="submit" value="Login" class="btn btn-form-auth">
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+            </form>
+{% endblock %}

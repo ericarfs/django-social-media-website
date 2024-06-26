@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %} Sign up {% endblock %}
+
+{% block form_title %}Sign up{% endblock%}
+{%block form_redirect%}
+Already a member? <a class="form-redirect" href="{% url 'user:login' %}">Login!</a>
+{%endblock%}
+
+{% block form %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Username </label><br/>
+                    {{user_form.username}}
+                    {{user_form.username.errors}}
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail </label><br/>
+                    {{user_form.email}}
+                    {{user_form.email.errors}}
+                </div>
+
+                <div class="form-group">
+                    <label>Password </label><br/>
+                    {{user_form.password1}}
+                    {{user_form.password1.errors}}
+                </div>
+
+                <div class="form-group">
+                    <label>Password confirmation</label><br/>
+                    {{user_form.password2}}
+                    {{user_form.password2.errors}}
+                </div>
+
+                <div class="form-buttons">
+                    <input type="submit" value="Sign up" class="btn btn-form-auth">
+                </div>
+            </form>
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de usuários</title>
+</head>
+<body>
+
+
+</body>
+</html>
+
