@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .forms import UserRegistrationForm
 from .models import Profile, User
+from pages.models import Question
 
 # Create your views here.
 
@@ -54,7 +55,8 @@ def homeView(request):
 
 @login_required(login_url='/account/login')
 def profileDetailView(request, user):
-    if (user=="login"):
+   
+    if (user=="login" or user == "home"):
         return redirect('/home')
 
     model = Profile
@@ -73,3 +75,13 @@ def profileDetailView(request, user):
             'userFound': "false",
         }
         return render(request, 'profiles/profile.html', context = context)
+
+
+@login_required(login_url='/account/login')
+def profileInboxView(request):
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    questions = Question.objects.filter(sent_to = profile, is_answered=False)
+    
+    return render(request, 'profiles/inbox.html', {'questions':questions})

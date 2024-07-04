@@ -11,6 +11,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default = "")
     date_of_birth = models.DateField(null=True, blank=True)
     following = models.ManyToManyField(User, related_name='following', blank = True)
+    blocked = models.ManyToManyField(User, related_name='blocked_users', blank = True)
     allow_anonymous_questions = models.BooleanField(default = True)
 
     def get_absolute_url(self):
@@ -19,8 +20,11 @@ class Profile(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.user)
+        return str(self.user.username)
 
+    def get_user(self):
+        """String for representing the Model object."""
+        return str(self.user.username)
 
     """FOLLOWING METHODS"""
     def get_following(self):

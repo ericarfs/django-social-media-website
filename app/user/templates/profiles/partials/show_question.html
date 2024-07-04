@@ -1,0 +1,49 @@
+<div class="question-reply-container">
+    <div style="display: flex;">
+        <div class="question-sender">
+            <div class="icon">
+
+            </div>
+            <span class="username"> 
+                <b>
+                {% if question.is_anon == False %}
+                <a href="{% url 'user:profile-detail' question.sent_by %}"> 
+                    {{ question.sent_by}}    </a>
+                        
+                {% else %}
+                    anonymous
+                {% endif %} 
+                </b>
+                asked you
+            </span>
+            
+        </div>
+        <div class="back-questions">
+            <button class="btn-htmx"
+                    hx-get="{% url 'user:get-questions-by-user' %}"
+                    hx-trigger="click"
+                    hx-target=".inbox-main">
+                    <i class="fi fi-br-cross"></i>
+            </button>
+        </div>
+    </div>
+    
+    <div class="question-body">
+        {{question.body}}
+    </div>
+    <div class="question-reply">
+        <form method="post">
+        {% csrf_token %}
+            <textarea id="message-reply" name="body" required></textarea><br>
+            <div class="action-container">
+                <button class="btn btn-reply " 
+                        hx-post="{%url 'user:save-answer' question.id %}"
+                        hx-trigger="click"
+                        hx-target=".inbox-main">
+                        Post
+                </button>
+            </div>
+        </form>
+    </div>
+    
+   </div>

@@ -22,30 +22,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 
     <!-- custom css & js -->
-    <link rel="stylesheet" href="{% static 'socialmedia/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'socialmedia/style.css' %}">
     <script src="{% static 'main.js' %}" defer></script>
-
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    
     <title>{% block title %} {% endblock title %} | YOUniverse </title>
   </head>
   <body>
     <header class="menu-header">
       <div class = "menu top-menu">
-        <nav>
-          <ul class="nav-list">
-            <a class="log" href="/">Ask Yourself</a>
-            <li><a href="/"> Inicio </a></li>
-            <li><a href="/"> Perfil </a></li>
-            <li><a href="/"> Inbox </a></li>
-            <li><a href="/"> Nots </a></li>
-          </ul>
-        </nav>
+        <div class="logo-menu">
+          <a  href="/">Ask Yourself</a>
+        </div>
+          <nav class="nav-menu" >
+            <ul class="nav-list">
+              
+              <li class="icon"><a href="/"> <i class="fi fi-rr-home"></i> </a></li>
+              <li class="icon"><a href="/"> <i class="fi fi-rr-search"></i> </a></li>
+              <li class="icon"><a href="{% url 'user:profile-detail'  request.user %}"> <i class="fi fi-rr-user"></i> </a></li>
+              <li class="icon"><a href="/"> <i class="fi fi-rr-bell"></i> </a></li>
+              <li class="icon"><a href="{% url 'user:profile-inbox'%}"> <i class="fi fi-rr-envelope"></i> </a></li>
+              <li class="icon"><a href="/"> <i class="fi fi-rr-menu-dots"></i> </a></li>
+            </ul>
+          </nav>        
       </div>
     </header>
     
     <section>
-      <div class="teste">
+      <div class="main-content">
         {% block content %}
         {% endblock content %}
       </div>

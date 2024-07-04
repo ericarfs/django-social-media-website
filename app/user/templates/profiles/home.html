@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 
-{% block title %} test Profile {% endblock title %}
+{% block title %} {% endblock title %}
 {% block content %}
 
 {%for post in profile.get_my_and_following_posts%}
@@ -8,21 +8,33 @@
     <div class="post-question">
         {{post.answer.question}}</br>
         <span class="question-author">
-          {%if post.answer.question_author%}
+          {%if post.answer.question.is_anon == False%}
             <a href="{% url 'user:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
           {%else%}
-            Anonymous
+            Anon
           {%endif%}
         </span>
         </br>
         
     </div>
     <div class="post-answer">
-      {{post.answer}} </br>{{post.like_count}} liked
-      <span class="answer-author">
-        <a href="{% url 'user:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a></br>
-      </span>
+      <div class="answer-content">
+        {{post.answer}} </br>
+      </div>
+      <div class="answer-author">
+        <div class="user-icon">
+        </div>
+        <span class="author-user">
+          <a href="{% url 'user:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
+        </span>
       
+      </div>
+      
+      
+    </div>
+    <div class="post-action">
+      <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
+      <li class="action" id="action-share"><i class="fi fi-rr-share-square"></i> {{post.like_count}}</li>
     </div>
     
       

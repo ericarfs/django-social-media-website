@@ -1,0 +1,65 @@
+{% if questions %}
+   {% for question in questions %}
+   <div class="question-container">
+    <div class="question-sender">
+        <div class="icon">
+
+        </div>
+        <span class="username"> 
+            <b>
+            {% if question.is_anon == False %}
+            <a href="{% url 'user:profile-detail' question.sent_by %}"> 
+                {{ question.sent_by}}    </a>
+                     
+            {% else %}
+                anonymous
+            {% endif %} 
+            </b>
+            asked you
+        </span>
+    </div>
+    <div class="question-body">
+        {{question.body}}
+    </div>
+    <div class="question-action">
+       <div class="action-container">
+        <button class="btn inverse" 
+                hx-get="{%url 'user:get-question-by-id' question.id %}"
+                hx-trigger="click"
+                hx-target=".inbox-main">
+                Reply
+        </button>
+       </div>
+       <div class="action-container" hx-confirm="Are you sure?">
+        <button class="btn-htmx"
+                type="button"
+                hx-delete="{%url 'user:block-user' question.sent_by %}"
+                hx-trigger="click"
+                hx-target=".inbox-main"
+                name="Block user"
+                >
+            <li class="action" id="action-block"><i class="fi fi-rr-cross-circle"></i></i></li>
+        </button>
+        
+        <button class="btn-htmx"
+                type="button"
+                hx-delete="{%url 'user:delete-question' question.id %}"
+                hx-trigger="click"
+                hx-target=".inbox-main"
+                name="Delete question"
+                >
+
+        <li class="action" id="action-delete"><i class="fi fi-rr-trash"></i></i></li>
+        </button>
+       </div>
+    </div>
+    
+   </div>
+   {% endfor %}
+{% else %}
+   <div class="object-not-found">
+    <b>Your inbox is empty.</b> 
+
+  </div>
+
+{% endif %}

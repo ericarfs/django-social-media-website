@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+
+    <!-- css & js -->
+    <link rel="stylesheet" href="{% static 'socialmedia/style.css' %}">
+    
+    <title>{% block title %} {% endblock title %} | Ask Yourself </title>
+</head>
+<body class="main-page">
+    <main class="main-container-pages">
+        {% block content %}
+            
+        {% endblock content %}
+        <!--footer class="footer-container">
+            <div class="footer-content ">
+                 <span class="site-links">vai ter links aqui </span>
+                    
+            </div>
+                
+            <div class="footer-content">
+                <span class = "copyright">&copy; AskYourself {% now 'Y' %} </span>
+             </div>        
+        </footer-->
+    </main>
+   
+    
+    
+</body>
+</html>

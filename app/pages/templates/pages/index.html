@@ -1,0 +1,18 @@
+{% extends "base_pages.html" %}
+{% block title %} Ask Yourself {% endblock %}
+
+{% block content %}
+
+        <section>
+            <div class="index-info">
+                <div class="logo">
+                    <span class="title">Ask Yourself</span><br/><br/>
+                    <span>Don't let the<strong> curiosity </strong>kill you!<br/></span> 
+                </div>
+                <div class="buttons-index">
+                    <a class="btn btn-auth inverse" href="{% url 'user:login' %}">Login</a>
+                    <a class="btn btn-auth" href="{% url 'user:signup' %}">Sign Up</a>
+                </div> 
+            </div>
+        </section>
+{% endblock %}

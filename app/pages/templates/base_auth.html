@@ -22,18 +22,14 @@
 </head>
 <body>
     <main class="main-container-forms">
-        <section>
-            <div  class="forms-main">
-                <div class="home-redirect"><a href="{% url 'pages:index' %}"">Ask Yourself</a></div>
-                <div class="form-container">
-                    <div class="form-title">
-                        <span>{%block form_title%}{%endblock form_title%}</span>
-                        <span class="form-redirect">{%block form_redirect%}{%endblock form_redirect%}</span>
-                    </div>
-                    
-                    <div class="form-auth">
-                        {%block form%}{%endblock form%}
-                    </div>
+        <section class="forms-main">
+            <div class="form-container">
+                <div class="form-title">
+                    {%block form_title%}{%endblock form_title%}
+                </div>
+                {%block teste%}{%endblock teste%}
+                <div class="form-auth">
+                    {%block form%}{%endblock form%}
                 </div>
             </div>
         </section>
