@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.urls import reverse  # To generate URLS by reversing URL patterns
 from user.models import Profile 
+from django.core.validators import MinLengthValidator
 
 
 # Create your models here.
@@ -10,7 +11,9 @@ class Question(models.Model):
     """Model representing a question."""
     sent_by = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, blank = True)
     sent_to = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True, related_name = "answer")
-    body = models.TextField(help_text="Ask me anything")
+    body = models.TextField(max_length=1024, help_text="Ask me anything", validators=[
+            MinLengthValidator(4, 'Question must contain at least 4 characters!')
+            ])
     created_at = models.DateTimeField(auto_now_add=True)
     is_anon = models.BooleanField(default = True)
     is_answered = models.BooleanField(default = False)
@@ -21,9 +24,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    """Model representing an question."""
+    """Model representing an answer."""
     question = models.OneToOneField(Question, on_delete=models.CASCADE)
-    body = models.TextField()
+    body = models.TextField(max_length=3072)
 	
     def __str__(self):
         """String for representing the Model object."""
@@ -39,7 +42,7 @@ class Answer(models.Model):
 
     
 class Post(models.Model):
-    """Model representing an answer."""
+    """Model representing a post."""
     answer = models.OneToOneField(Answer, on_delete=models.CASCADE)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, null = True)
     liked = models.ManyToManyField(User, default=None, blank = True, related_name="post_likes")
