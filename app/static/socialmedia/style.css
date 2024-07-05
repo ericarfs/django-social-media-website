@@ -350,6 +350,12 @@ select:-webkit-autofill {
     margin-bottom: 8px;
 }
 
+.post:hover{
+    background-color:var(--main-bg-white);
+    cursor:pointer;
+
+}
+
 .post-question{
     
     border-bottom: 1px solid #d9d9d9;
@@ -465,23 +471,24 @@ select:-webkit-autofill {
 
 .profile-stats{
     width: 100%;
-    height: 57px;
     background-color: white;
     border-radius: 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content:  space-evenly;
 }
 
 .stats{
-    width: 33%;
-    height: 100%;
+    width: 100%;
+    max-width: 120px;
+    height: 57px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: var(--grey);
     font-size: 0.8rem;
+
 }
 
 .message-form-container{
@@ -561,6 +568,13 @@ select:-webkit-autofill {
 }
 
 .response-container{
+    position: relative;
+    top: -250px;
+    width: 100%;
+    background-color: transparent;
+}
+
+#message-response{
     width: 100%;
     background-color: white;
     border-radius: 10px;
@@ -568,11 +582,10 @@ select:-webkit-autofill {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
 .response-container p{
-    padding-top: 10px;
+    padding-top: 16px;
 }
 
 .response-container input{
@@ -598,8 +611,9 @@ select:-webkit-autofill {
 }
 
 .question-container{
-    width: 336px;
-    height: 360px;
+    width: 100%;
+    max-width: 336px;
+    min-height: 360px;
     background-color: white;
     border-radius: 10px;
     padding: 10px;
@@ -628,9 +642,9 @@ select:-webkit-autofill {
 
 .question-body{
     width: 100%;
-    height: 245px;
+    min-height: 245px;
     padding-left: 56px;
-    overflow: hidden;
+
 }
 
 .question-body a{
@@ -641,8 +655,9 @@ select:-webkit-autofill {
 
 .question-action{
     width: 100%;
-    height: 50px;
+    min-height: 50px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding-top: 16px;
@@ -662,10 +677,11 @@ select:-webkit-autofill {
     padding: 10px;
 }
 
-.question-reply-container .question-body{
+.question-body-reply{
+    width: 100%;
+    padding-left: 56px;
     height: auto;    
     padding-bottom: 10px;
-
 }
 
 .question-reply{

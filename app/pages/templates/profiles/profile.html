@@ -38,7 +38,7 @@
         {% csrf_token %}
         <input type="hidden" id="username" name="username" value={{profile.get_user}}>
         <textarea id="message" name="body" required
-                      hx-get="{%url 'user:check-question' %}" 
+                      hx-get="{%url 'pages:check-question' %}" 
                       hx-trigger="keyup" 
                       hx-target=".char-count"
         ></textarea><br>
@@ -53,9 +53,10 @@
           </div>
           <div class="message-button">
             <button type="button" class="btn btn-msg"
-                    hx-post="{%url 'user:save-question' %}"
+                    hx-post="{%url 'pages:save-question' %}"
                     hx-trigger="click" 
                     hx-target=".response-container"
+                    hx-swap="outerHTML"
                     hx-disabled-elt="this"
             > Send </button>
             
@@ -98,7 +99,7 @@
           {{post.answer.question}}</br>
           <span class="question-author">
             {%if post.answer.question.is_anon == False%}
-              <a href="{% url 'user:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
+              <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
             {%else%}
               Anon
             {%endif%}
@@ -114,7 +115,7 @@
           <div class="user-icon">
           </div>
           <span class="author-user">
-            <a href="{% url 'user:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
+            <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
           </span>
         
         </div>

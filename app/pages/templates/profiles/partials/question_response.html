@@ -1,0 +1,9 @@
+<div class="response-container"
+    hx-get="{%url 'pages:check-question' %}" 
+    hx-trigger="click" 
+    hx-target="#message-response"
+    hx-swap="delete">
+    <div id="message-response">
+        <p>{{message}}</p> 
+    </div>    
+</div>

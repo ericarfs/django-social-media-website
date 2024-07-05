@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from .forms import UserRegistrationForm
 from .models import Profile, User
-from pages.models import Question
 
 # Create your views here.
 
@@ -47,41 +46,3 @@ def LoginView(request):
         form_login = AuthenticationForm()
     return render(request, 'user/login.html', {'form_login': form_login})
 
-
-@login_required(login_url='/account/login')
-def homeView(request):
-    profile = Profile.objects.get(user=request.user)
-    return render(request, 'profiles/home.html', {'profile': profile})
-
-@login_required(login_url='/account/login')
-def profileDetailView(request, user):
-   
-    if (user=="login" or user == "home"):
-        return redirect('/home')
-
-    model = Profile
-    if User.objects.filter(username = user).exists(): 
-        requestedUser = User.objects.get(username = user)
-        profile = Profile.objects.get(user=requestedUser)
-        context = {
-            'profile': profile,
-            'username': user,
-            'userFound':"true",
-        }
-        return render(request, 'profiles/profile.html', context = context)
-    else:
-        context = {
-            'username': user,
-            'userFound': "false",
-        }
-        return render(request, 'profiles/profile.html', context = context)
-
-
-@login_required(login_url='/account/login')
-def profileInboxView(request):
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
-    
-    return render(request, 'profiles/inbox.html', {'questions':questions})

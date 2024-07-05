@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Profile, User
+from user.models import Profile, User
 from pages.models import Answer, Question, Post
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
@@ -57,7 +57,6 @@ def check_question(request):
     return render(request, 'profiles/partials/check_question.html', {'body': body})
 
 
-@csrf_exempt
 def save_question(request):
     user = request.POST.get('username')
     body = request.POST.get('body')
