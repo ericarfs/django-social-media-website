@@ -14,8 +14,6 @@ from .models import Profile, User
 def SignUpView(request):
     if request.method == "POST":
         user_form = UserRegistrationForm(request.POST)
-        print(user_form.is_valid())
-        print(user_form.errors)
         if user_form.is_valid():
             user_form.save()
             username = user_form.cleaned_data['username']
@@ -46,3 +44,6 @@ def LoginView(request):
         form_login = AuthenticationForm()
     return render(request, 'user/login.html', {'form_login': form_login})
 
+def LogoutView(request):
+    logout(request)
+    return redirect('/')

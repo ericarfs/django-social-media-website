@@ -296,8 +296,6 @@ section{
 
 .form-redirect a:hover{ 
     color: var(--main-pink);
-    text-decoration: none;
-    font-weight: bold;
 }
 
 .form-group{
@@ -545,6 +543,12 @@ select:-webkit-autofill {
     background-color: var(--main-bg-white);
 }
 
+#message:focus{
+    transition: .07s;
+    border: 2px solid var(--pink-details);
+    outline: 0;
+}
+
 #hide-name{
     width: 16px;
     height: 16px;
@@ -698,6 +702,13 @@ select:-webkit-autofill {
     border-radius: 10px;
     padding: 0 8px;
     background-color: var(--main-bg-white);
+    
+}
+
+#message-reply:focus{
+    transition: .07s;
+    border: 2px solid var(--pink-details);
+    outline: 0;
 }
 
 
