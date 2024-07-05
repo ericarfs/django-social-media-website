@@ -82,6 +82,6 @@ def profileInboxView(request):
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
 
-    questions = Question.objects.filter(sent_to = profile, is_answered=False)
+    questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
     
     return render(request, 'profiles/inbox.html', {'questions':questions})

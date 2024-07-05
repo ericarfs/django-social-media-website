@@ -19,7 +19,14 @@
         </span>
     </div>
     <div class="question-body">
-        {{question.body}}
+        {{question.body|truncatechars:285}}
+        {% if question.body|length > 285%}
+        <a   href=""
+                type="button"
+                hx-get="{%url 'user:get-question-by-id' question.id %}"
+                hx-trigger="click"
+                hx-target=".inbox-main">...Read more</a>
+        {% endif %}
     </div>
     <div class="question-action">
        <div class="action-container">

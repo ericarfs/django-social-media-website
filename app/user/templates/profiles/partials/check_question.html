@@ -1,0 +1,6 @@
+{% if body|length > 1024 %}
+    <span id="count" style="color: red;">  {{ body|length }}/ 1024 </span> 
+{% else %}
+    <span id="count">  {{ body|length }}/ 1024 </span> 
+{% endif %}
+

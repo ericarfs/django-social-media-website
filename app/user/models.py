@@ -60,7 +60,12 @@ class Profile(models.Model):
     
     """POSTS METHODS"""  
     def get_my_posts(self):
-        return self.post_set.all()
+        posts = [self.post_set.all()]
+        query_set = None
+
+        if len(posts) > 0:
+            query_set = sorted(chain(*posts), reverse = True, key=lambda obj: obj.created_at)
+        return query_set
 
     @property
     def posts_count(self):

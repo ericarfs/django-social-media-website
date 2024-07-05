@@ -1,0 +1,9 @@
+<div id="message-response">
+    <p>{{message}}</p>
+    <input type="button" value="OK"
+        hx-get="{%url 'user:check-question' %}" 
+        hx-trigger="click" 
+        hx-target="#message-response"
+        hx-swap="delete">   
+</div>
+

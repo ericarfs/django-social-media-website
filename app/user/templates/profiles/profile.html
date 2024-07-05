@@ -36,19 +36,38 @@
     <div class="message-form-container">
       <form method="post">
         {% csrf_token %}
+        <input type="hidden" id="username" name="username" value={{profile.get_user}}>
+        <textarea id="message" name="body" required
+                      hx-get="{%url 'user:check-question' %}" 
+                      hx-trigger="keyup" 
+                      hx-target=".char-count"
+        ></textarea><br>
+        <div class="char-count">
+          <span id="count">  0</span> / 1024
+        </div>
 
-        <textarea id="message" name="body" required></textarea><br>
-        <input type="checkbox" name="anon" id="hide-name" /> Hide your name
-        <div class="message-button">
-          <button type="button" class="btn btn-msg"
-                  
-          > Send </button>
-          <div id="teste">
+        <div class="send-area">
+          <div>
+            <input type="checkbox" name="anon" id="hide-name" name="hide-name"/>
+            <label for="hide-name" style="color: var(--grey);">Hide your name</label>
+          </div>
+          <div class="message-button">
+            <button type="button" class="btn btn-msg"
+                    hx-post="{%url 'user:save-question' %}"
+                    hx-trigger="click" 
+                    hx-target=".response-container"
+                    hx-disabled-elt="this"
+            > Send </button>
+            
 
           </div>
 
         </div>
-    </form>
+        
+      </form>
+     
+    </div>
+    <div class="response-container">
 
     </div>
   </div>
@@ -68,7 +87,7 @@
   {%if profile.posts_count == 0 %}
   <div class="object-not-found">
     <b >This user hasn't answered any questions yet.</b> 
-    <b style="font-size: 1.2rem;">Be the first one to ask {{ profile }} anything!</b>
+    <b style="font-size: 1.2rem;">Be the first one to ask {{ profile }} anything !</b>
 
   </div>
 

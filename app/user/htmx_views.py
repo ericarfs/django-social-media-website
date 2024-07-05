@@ -5,21 +5,28 @@ from pages.models import Answer, Question, Post
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
+
+def get_questions(user):
+    requestedUser =  User.objects.get(username = user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
+    return questions
+
+    
 @csrf_exempt
 @require_http_methods(['DELETE'])
 def block_user(request, user):
     blocked_user = User.objects.get(username = user)
     blocked_profile = Profile.objects.get(user=blocked_user)
 
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    questions = Question.objects.filter(sent_by = blocked_profile)
+    questions_to_delete = Question.objects.filter(sent_by = blocked_profile, is_answered=False)
     
-    questions.delete()
+    questions_to_delete.delete()
     
-    questions = Question.objects.filter(sent_to = profile)
+    questions = get_questions(request.user)
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
+
 
 @csrf_exempt
 @require_http_methods(['DELETE'])
@@ -28,19 +35,14 @@ def delete_question(request, id):
     
     question.delete()
 
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    questions = Question.objects.filter(sent_to = profile, is_answered=False)
+    questions = questions = get_questions(request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
-def get_questions_by_user(request):
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
 
-    questions = Question.objects.filter(sent_to = profile, is_answered=False)
+def get_questions_by_user(request):
+    questions = get_questions(request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
@@ -49,39 +51,25 @@ def get_question_by_id(request, id):
     question = question = Question.objects.get(id = id)
     return render(request, 'profiles/partials/show_question.html', {'question':question})
 
+def check_question(request):
+    body = request.GET.get('body')
 
-def saveQuestion(request, user):
-    body = request.POST.get('body')
-   # is_anon = request.POST.get('anon')
-    sent_to = user
-    sent_by = request.user
+    return render(request, 'profiles/partials/check_question.html', {'body': body})
 
-    print(body)
-    print(is_anon)
-    print(sent_to)
-    print(sent_by)
 
-    '''product = Product(
-        name = name,
-        price = price
-    )
-    product.save()
-
-    products = Product.objects.all()'''
-
-    return HttpResponse("555")
-
-def save_question(request, user):
+@csrf_exempt
+def save_question(request):
+    user = request.POST.get('username')
     body = request.POST.get('body')
     anon = request.POST.get('anon')
     
     is_anon = True if anon == "on" else False
 
-    requestedUser = User.objects.get(username = request.user)
-    sent_by = Profile.objects.get(user=requestedUser)
+    sent_by_user = User.objects.get(username = request.user)
+    sent_by = Profile.objects.get(user=sent_by_user)
 
-    requestedUser = User.objects.get(username = user)
-    sent_to = Profile.objects.get(user=requestedUser)
+    sent_to_user = User.objects.get(username = user)
+    sent_to = Profile.objects.get(user=sent_to_user)
 
     question = Question(
         sent_to = sent_to,
@@ -89,17 +77,25 @@ def save_question(request, user):
         body = body,
         is_anon = is_anon
     )
-       
+    message = "Question sent successfully !"
+    if len(body) < 4:
+        message = 'Question must contain at least 4 characters !'
+        return render(request, 'profiles/partials/question_response.html', {'message': message})
+
+    if len(body) > 1024:
+        message = 'Question must contain up to 1024 characters !'
+        return render(request, 'profiles/partials/question_response.html', {'message': message})
+
     question.save()
 
-    return HttpResponse("555")
+    return render(request, 'profiles/partials/question_response.html', {'message': message})
+
 
 
 def save_answer(request, id):
     body = request.POST.get('body')
     question = Question.objects.get(id = id)
-    
-    print(body)
+
     question.is_answered = True
 
     answer = Answer(
@@ -110,10 +106,7 @@ def save_answer(request, id):
     question.save()
     answer.save()
 
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    questions = Question.objects.filter(sent_to = profile, is_answered=False)
+    questions = get_questions(request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
