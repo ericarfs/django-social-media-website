@@ -18,4 +18,8 @@ urlpatterns = [
     path('delete_question/<int:id>',htmx_views.delete_question, name = "delete-question"),
     path('get_question_by_id/<int:id>',htmx_views.get_question_by_id, name = "get-question-by-id"),
     path('save_answer/<int:id>',htmx_views.save_answer, name = "save-answer"),
+    path('get_posts',htmx_views.get_posts, name = "get-posts"),
+    path('<str:user>/post/<int:id>/edit',htmx_views.edit_post, name = "edit-post"),
+    path('save_post/<int:id>',htmx_views.save_post, name = "save-post"),
+    path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
 ]

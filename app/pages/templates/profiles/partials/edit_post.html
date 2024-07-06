@@ -1,0 +1,55 @@
+<div class="post">
+    <div style="display: flex;">
+        <div class="post-question">
+            {{post.answer.question}}</br>
+            <span class="question-author">
+            {%if post.answer.question.is_anon == False%}
+                <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
+            {%else%}
+                Anon
+            {%endif%}
+            </span>
+        
+        </div>
+        <div class="back-posts">
+            <i  class="fi fi-br-cross"
+                type="button"
+                hx-get="{% url 'pages:get-posts' %}"
+                hx-trigger="click"
+                hx-target=".posts-container"    
+            ></i>
+        </div>
+    </div>
+    
+        <div class="answer-content">
+            <form method="post">
+                {% csrf_token %}
+                <div class="post-edit">
+                    <textarea id="message-reply" name="body" required> {{ post.answer }} </textarea><br>
+                    <div class="answer-author">
+                        <div class="user-icon">
+                        </div>
+                        <span class="author-user">
+                        <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
+                        </span>
+                    
+                    </div>
+                </div>
+                <div class="send-area">
+                <span></span>
+                <div class="message-button">
+                    <button type="button" class="btn btn-msg"
+                            hx-post="{%url 'pages:save-post' post.id %}"
+                            hx-trigger="click" 
+                            hx-target=".posts-container"
+                    > Save </button>
+                    
+        
+                </div>
+        
+                </div>
+                
+            </form>
+        </div>
+    
+</div>

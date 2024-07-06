@@ -38,25 +38,22 @@
         </button>
        </div>
        <div class="action-container" hx-confirm="Are you sure?">
-        <button class="btn-htmx"
+            <li class="action" id="action-block"
                 type="button"
                 hx-delete="{%url 'pages:block-user' question.sent_by %}"
                 hx-trigger="click"
                 hx-target=".inbox-main"
-                name="Block user"
-                >
-            <li class="action" id="action-block"><i class="fi fi-rr-cross-circle"></i></i></li>
-        </button>
-        
-        <button class="btn-htmx"
+                name="Block user">
+                <i class="fi fi-rr-cross-circle"></i></i>
+            </li>
+            <li class="action" id="action-delete"
                 type="button"
                 hx-delete="{%url 'pages:delete-question' question.id %}"
                 hx-trigger="click"
                 hx-target=".inbox-main"
-                name="Delete question"
-                >
-
-        <li class="action" id="action-delete"><i class="fi fi-rr-trash"></i></i></li>
+                name="Delete question">
+                <i class="fi fi-rr-trash"></i>
+            </li>
         </button>
        </div>
     </div>

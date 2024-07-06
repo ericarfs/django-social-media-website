@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 
-{% block title %} {{profile}} {% endblock title %}
+{% block title %} {{username}} {% endblock title %}
 {% block content %}
 
 <div class="profile-main">
@@ -78,60 +78,28 @@
   
 
   <div class="profile-posts">
-  {%if userFound == "false" %}
-    <div class="object-not-found">
-      <b>User not found!</b>
+    <div class="posts-container">
+      {%if userFound == "false" %}
+      <div class="object-not-found">
+        <b>User not found!</b>
+      </div>
+
+      {% else %}
+
+      {%if profile.posts_count > 0 %}
+        {%include "profiles/partials/list_user_posts.html" %}
+
+      {% else %}
+      <div class="object-not-found">
+        <b >This user hasn't answered any questions yet.</b> 
+        <b style="font-size: 1.2rem;">Be the first one to ask {{ profile }} anything !</b>
+
+      </div>
+      {%endif%}
     </div>
+    {%endif%}
 
-  {%endif%}
-
-  {%if profile.posts_count == 0 %}
-  <div class="object-not-found">
-    <b >This user hasn't answered any questions yet.</b> 
-    <b style="font-size: 1.2rem;">Be the first one to ask {{ profile }} anything !</b>
-
-  </div>
-
-  {%endif%}
-  {%for post in profile.get_my_posts%}
-    <div class="post">
-      <div class="post-question">
-          {{post.answer.question}}</br>
-          <span class="question-author">
-            {%if post.answer.question.is_anon == False%}
-              <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
-            {%else%}
-              Anon
-            {%endif%}
-          </span>
-          </br>
-          
-      </div>
-      <div class="post-answer">
-        <div class="answer-content">
-          {{post.answer}} </br>
-        </div>
-        <div class="answer-author">
-          <div class="user-icon">
-          </div>
-          <span class="author-user">
-            <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
-          </span>
-        
-        </div>
-        
-        
-      </div>
-      <div class="post-action">
-        <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
-        <li class="action" id="action-share"><i class="fi fi-rr-share-square"></i> {{post.like_count}}</li>
-      </div>
-      
-        
-        
     </div>
-
-  {%endfor%}
-  </div>
+    
 </div>
 {% endblock %}

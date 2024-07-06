@@ -3,52 +3,15 @@
 {% block title %} {% endblock title %}
 {% block content %}
 
+<div class="posts-container">
+  {% if profile.get_my_and_following_posts %}
+    {%include "profiles/partials/list_user_and_following_posts.html" %}
+  {% else %}
+  <div class="object-not-found">
+    <b >Your profile is empty.</b> 
+    <b style="font-size: 1.2rem;">Answer some questions or follow some people to fill your feed !</b>
 
-{% if profile.get_my_and_following_posts %}
-{%for post in profile.get_my_and_following_posts%}
-  <div class="post">
-    <div class="post-question">
-        {{post.answer.question}}</br>
-        <span class="question-author">
-          {%if post.answer.question.is_anon == False%}
-            <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
-          {%else%}
-            Anon
-          {%endif%}
-        </span>
-        </br>
-        
-    </div>
-    <div class="post-answer">
-      <div class="answer-content">
-        {{post.answer}} </br>
-      </div>
-      <div class="answer-author">
-        <div class="user-icon">
-        </div>
-        <span class="author-user">
-          <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
-        </span>
-      
-      </div>
-      
-      
-    </div>
-    <div class="post-action">
-      <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
-      <li class="action" id="action-share"><i class="fi fi-rr-share-square"></i> {{post.like_count}}</li>
-    </div>
-    
-      
-      
   </div>
-
-{%endfor%}
-{% else %}
-<div class="object-not-found">
-  <b >Your profile is empty.</b> 
-  <b style="font-size: 1.2rem;">Answer some questions or follow some people to fill your feed !</b>
-
 </div>
 {% endif %}
 {% endblock %}

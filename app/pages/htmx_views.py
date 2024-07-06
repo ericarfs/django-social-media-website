@@ -43,7 +43,6 @@ def delete_question(request, id):
 
 def get_questions_by_user(request):
     questions = get_questions(request.user)
-
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
@@ -53,7 +52,6 @@ def get_question_by_id(request, id):
 
 def check_question(request):
     body = request.GET.get('body')
-
     return render(request, 'profiles/partials/check_question.html', {'body': body})
 
 
@@ -76,6 +74,7 @@ def save_question(request):
         body = body,
         is_anon = is_anon
     )
+    
     message = "Question sent successfully !"
     if len(body) < 4:
         message = 'Question must contain at least 4 characters !'
@@ -109,3 +108,48 @@ def save_answer(request, id):
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
+def get_posts(request):
+    profile = Profile.objects.get(user=request.user)
+
+    referer = request.headers.get('Referer')[-5:]
+    if referer == '/home':
+        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+
+    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})
+
+@csrf_exempt
+@require_http_methods(['DELETE'])
+def delete_post(request, id):
+    post = Post.objects.get(id = id)
+    
+    post.delete()
+
+    profile = Profile.objects.get(user=request.user)
+
+    referer = request.headers.get('Referer')[-5:]
+    if referer == '/home':
+        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+
+    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})
+
+
+def edit_post(request, user, id):
+    post = Post.objects.get(id = id)
+    return render(request, 'profiles/partials/edit_post.html', {'post': post})
+
+def save_post(request, id):
+    post = Post.objects.get(id = id)
+    new_answer = request.POST.get('body')
+
+    post.answer.body = new_answer
+
+    post.answer.save()
+    post.save()
+
+    profile = Profile.objects.get(user=request.user)
+
+    referer = request.headers.get('Referer')[-5:]
+    if referer == '/home':
+        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+
+    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})

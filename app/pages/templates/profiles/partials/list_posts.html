@@ -1,0 +1,57 @@
+<div class="post">
+    <div class="post-question">
+        {{post.answer.question}}</br>
+        <span class="question-author">
+        {%if post.answer.question.is_anon == False%}
+            <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
+        {%else%}
+            Anon
+        {%endif%}
+        </span>
+        
+    </div>
+    
+    <div class="post-answer">
+    <div class="answer-content">
+        {{post.answer}} </br>
+    </div>
+    <div class="answer-author">
+        <div class="user-icon">
+        </div>
+        <span class="author-user">
+        <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
+        </span>
+    
+    </div>
+    
+    
+    </div>
+    <div class="post-action-container">
+    <div class="post-action">
+        <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
+        <li class="action" id="action-share"><i class="fi fi-rr-share-square"></i> {{post.like_count}}</li>
+    </div>
+    {%if request.user.username == profile.get_user %}
+    <div class="post-action">
+        <li class="action" id="action-edit"
+            type="button"
+            hx-get="{%url 'pages:edit-post' request.user post.id %}"
+            hx-trigger="click"
+            hx-target=".posts-container"
+            name="Edit post">
+            <i class="fi fi-rr-edit"></i>
+        </li>
+        <li class="action" id="action-delete"
+            type="button"
+            hx-delete="{%url 'pages:delete-post' post.id %}"
+            hx-trigger="click"
+            hx-target=".posts-container"
+            hx-confirm="Are you sure you wnat to delete?"
+            name="Delete post">
+            <i class="fi fi-rr-trash"></i>
+        </li>
+    </div>
+    {% endif %}
+    </div>
+    
+</div>
