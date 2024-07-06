@@ -1,0 +1,84 @@
+{% extends "base_generic.html" %}
+
+{% block title %} {{username}} {% endblock title %}
+{% block content %}
+
+<div class="profile-main">
+
+
+  <div class="profile-info">
+    <div class="profile-header">
+      <div class= "profile-username"> 
+        <b>{{username}}</b>
+      </div>
+      <div class= "profile-teste"> 
+  
+      </div>
+      <div class= "profile-btn"> 
+  
+      </div>
+  
+    </div>
+    <div class="profile-stats">
+      <div class="stats">
+        <span>{{profile.followers_count}}</span>
+        <span>Followers</span>
+      </div>
+      <div class="stats">
+        <span>{{profile.following_count}}</span>
+        <span>Following</span>
+      </div>
+      <div class="stats">
+        <span>{{profile.posts_count}}</span>
+        <span>Answer</span>
+      </div>
+    </div>
+    <div class="message-form-container">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" id="username" name="username" value={{profile.get_user}}>
+        <textarea id="message" name="body" required
+                      hx-get="{%url 'pages:check-question' %}" 
+                      hx-trigger="keyup" 
+                      hx-target=".char-count"
+        ></textarea><br>
+        <div class="char-count">
+          <span id="count">  0</span> / 1024
+        </div>
+
+        <div class="send-area">
+          <div>
+            <input type="checkbox" name="anon" id="hide-name" name="hide-name"/>
+            <label for="hide-name" style="color: var(--grey);">Hide your name</label>
+          </div>
+          <div class="message-button">
+            <button type="button" class="btn btn-msg"
+                    hx-post="{%url 'pages:save-question' %}"
+                    hx-trigger="click" 
+                    hx-target=".response-container"
+                    hx-swap="outerHTML"
+                    hx-disabled-elt="this"
+            > Send </button>
+            
+
+          </div>
+
+        </div>
+        
+      </form>
+     
+    </div>
+    <div class="response-container">
+
+    </div>
+  </div>
+ 
+
+  <div class="profile-posts">
+    {% block posts %}
+
+    {% endblock posts%}
+    </div>
+    
+</div>
+{% endblock %}

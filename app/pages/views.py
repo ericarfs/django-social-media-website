@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
-from .models import Question, Answer
+from .models import Question, Answer, Post
 from user.models import User, Profile
 
 # Create your views here.
@@ -54,3 +54,18 @@ def profileInboxView(request):
     questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
     
     return render(request, 'profiles/inbox.html', {'questions':questions})
+
+@login_required(login_url='/account/login')
+def postDetailView(request, user, id):
+    requestedUser =  User.objects.get(username = user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    post = Post.objects.get(id=id)
+
+    context = {
+        'profile': profile,
+        'username': user,
+        'post': post,
+    }
+    
+    return render(request, 'profiles/profile_post.html', context = context)

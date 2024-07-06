@@ -25,7 +25,7 @@ def block_user(request, user):
     questions_to_delete.delete()
     
     questions = get_questions(request.user)
-    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
 
 
 @csrf_exempt
@@ -37,22 +37,22 @@ def delete_question(request, id):
 
     questions = questions = get_questions(request.user)
 
-    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
 
 
 
 def get_questions_by_user(request):
     questions = get_questions(request.user)
-    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
 
 
 def get_question_by_id(request, id):
     question = question = Question.objects.get(id = id)
-    return render(request, 'profiles/partials/show_question.html', {'question':question})
+    return render(request, 'profiles/partials/htmx/show_question.html', {'question':question})
 
 def check_question(request):
     body = request.GET.get('body')
-    return render(request, 'profiles/partials/check_question.html', {'body': body})
+    return render(request, 'profiles/partials/htmx/check_question.html', {'body': body})
 
 
 def save_question(request):
@@ -78,15 +78,15 @@ def save_question(request):
     message = "Question sent successfully !"
     if len(body) < 4:
         message = 'Question must contain at least 4 characters !'
-        return render(request, 'profiles/partials/question_response.html', {'message': message})
+        return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
 
     if len(body) > 1024:
         message = 'Question must contain up to 1024 characters !'
-        return render(request, 'profiles/partials/question_response.html', {'message': message})
+        return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
 
     question.save()
 
-    return render(request, 'profiles/partials/question_response.html', {'message': message})
+    return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
 
 
 
@@ -106,16 +106,16 @@ def save_answer(request, id):
 
     questions = get_questions(request.user)
 
-    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
 
 def get_posts(request):
     profile = Profile.objects.get(user=request.user)
 
     referer = request.headers.get('Referer')[-5:]
     if referer == '/home':
-        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+        return render(request, 'profiles/partials/htmx/list_user_and_following_posts.html', {'profile': profile})
 
-    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})
+    return render(request, 'profiles/partials/htmx/list_user_posts.html', {'profile': profile})
 
 @csrf_exempt
 @require_http_methods(['DELETE'])
@@ -128,14 +128,14 @@ def delete_post(request, id):
 
     referer = request.headers.get('Referer')[-5:]
     if referer == '/home':
-        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+        return render(request, 'profiles/partials/htmx/list_user_and_following_posts.html', {'profile': profile})
 
-    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})
+    return render(request, 'profiles/partials/htmx/list_user_posts.html', {'profile': profile})
 
 
 def edit_post(request, user, id):
     post = Post.objects.get(id = id)
-    return render(request, 'profiles/partials/edit_post.html', {'post': post})
+    return render(request, 'profiles/partials/htmx/edit_post.html', {'post': post})
 
 def save_post(request, id):
     post = Post.objects.get(id = id)
@@ -150,6 +150,6 @@ def save_post(request, id):
 
     referer = request.headers.get('Referer')[-5:]
     if referer == '/home':
-        return render(request, 'profiles/partials/list_user_and_following_posts.html', {'profile': profile})
+        return render(request, 'profiles/partials/htmx/list_user_and_following_posts.html', {'profile': profile})
 
-    return render(request, 'profiles/partials/list_user_posts.html', {'profile': profile})
+    return render(request, 'profiles/partials/htmx/list_user_posts.html', {'profile': profile})
