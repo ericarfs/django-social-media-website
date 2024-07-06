@@ -10,6 +10,8 @@ from .models import Profile, User
 
 # Create your views here.
 
+def redirectPNF(request, exception): return redirect('home')
+
 @user_passes_test(lambda user: not user.username, login_url='/home', redirect_field_name=None)
 def SignUpView(request):
     if request.method == "POST":

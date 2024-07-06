@@ -358,11 +358,6 @@ select:-webkit-autofill {
     margin-bottom: 8px;
 }
 
-.post:hover{
-    background-color:var(--main-bg-white);
-    cursor:pointer;
-
-}
 
 .post-question{
     width: 100%;
@@ -428,7 +423,8 @@ select:-webkit-autofill {
     padding-bottom: 8px;
     display: flex;
     justify-content: space-between;
-    width: 84px;
+    gap: 2px;
+    min-width: 84px;
     height: 30px;
 }
 

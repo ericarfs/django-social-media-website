@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from .models import Question, Answer, Post
 from user.models import User, Profile
 
+def redirectPNF(request, exception): return redirect('home')
+
 # Create your views here.
 @user_passes_test(lambda user: not user.username, login_url='/home', redirect_field_name=None)
 def IndexView(request):
@@ -20,7 +22,12 @@ class AboutView(TemplateView):
 @login_required(login_url='/account/login')
 def homeView(request):
     profile = Profile.objects.get(user=request.user)
-    return render(request, 'profiles/home.html', {'profile': profile})
+    posts = profile.get_my_and_following_posts()
+    context = {
+        'profile': profile,
+        'posts': posts,
+    }
+    return render(request, 'profiles/home.html', context = context)
 
 @login_required(login_url='/account/login')
 def profileDetailView(request, user):
@@ -28,13 +35,15 @@ def profileDetailView(request, user):
     if (user=="login" or user == "home"):
         return redirect('/home')
 
-    model = Profile
     if User.objects.filter(username = user).exists(): 
         requestedUser = User.objects.get(username = user)
         profile = Profile.objects.get(user=requestedUser)
+        posts = profile.get_my_and_following_posts()
+
         context = {
             'profile': profile,
             'username': user,
+            'posts': posts,
             'userFound':"true",
         }
         return render(request, 'profiles/profile.html', context = context)
@@ -60,12 +69,14 @@ def postDetailView(request, user, id):
     requestedUser =  User.objects.get(username = user)
     profile = Profile.objects.get(user=requestedUser)
 
-    post = Post.objects.get(id=id)
+    posts = []
+    if Post.objects.filter(id = id).exists(): 
+        posts.append(Post.objects.get(id=id))
 
     context = {
         'profile': profile,
         'username': user,
-        'post': post,
+        'posts': posts,
     }
     
     return render(request, 'profiles/profile_post.html', context = context)

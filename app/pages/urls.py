@@ -5,6 +5,8 @@ from pages import views, htmx_views
 
 app_name = 'pages'
 
+handler404 = 'pages.views.redirectPNF' # Added this line in URLconf instead of settings.py
+
 urlpatterns = [
     path('', IndexView, name='index'),
     path('about', AboutView.as_view(), name='about'),
@@ -21,6 +23,7 @@ urlpatterns = [
     path('get_posts',htmx_views.get_posts, name = "get-posts"),
     path('<str:user>/post/<int:id>',views.postDetailView, name = "post-detail"),
     path('<str:user>/post/<int:id>/edit',htmx_views.edit_post, name = "edit-post"),
+    path('get_post/<int:id>',htmx_views.get_post, name = "get-post"),
     path('save_post/<int:id>',htmx_views.save_post, name = "save-post"),
     path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
 ]

@@ -1,5 +1,13 @@
 {% extends "base_profile.html" %}
 
 {% block posts %}
-    {%include "profiles/partials/htmx/show_post.html" %}
+<div class="posts-container">
+{% if posts %}
+    {%include "profiles/partials/htmx/list_posts.html" %}
+{% else %}
+    <div class="object-not-found">
+        <b>Post not found !</b> 
+    </div>
+{% endif %}
+</div>
 {% endblock %}

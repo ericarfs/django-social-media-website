@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.urls import reverse  # To generate URLS by reversing URL patterns
 from user.models import Profile 
+from django.utils import timezone, dateformat
 from django.core.validators import MinLengthValidator
 
 
@@ -55,7 +56,13 @@ class Post(models.Model):
     
     def get_created_at(self):
         """String for representing the Model object."""
-        return str(self.created_at)
+        created_date = self.created_at.strftime("%d/%m/%Y %H:%M:%S")
+
+        return created_date
+    
+    def get_question_author(self):
+        return self.answer.question_author().user
+
 
     def get_like(self):
 	    return self.liked.all()
