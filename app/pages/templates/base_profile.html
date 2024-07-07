@@ -8,14 +8,42 @@
 
   <div class="profile-info">
     <div class="profile-header">
-      <div class= "profile-username"> 
-        <b>{{username}}</b>
+      <div class="profile-icon-container">
+
       </div>
-      <div class= "profile-teste"> 
-  
-      </div>
-      <div class= "profile-btn"> 
-  
+      <div class= "profile-user"> 
+          <h4><b>{{username}}</b></h4>        
+        <div class="user-actions">
+          <div class="follow-container">
+            <button type="button" class="btn btn-follow"
+                    hx-post="{%url 'pages:save-question' %}"
+                    hx-trigger="click" 
+                    hx-target=".response-container"
+                    hx-swap="outerHTML"
+                    hx-disabled-elt="this"
+            > Follow </button>
+          </div>
+          <div class="profile-actions">
+            <li class="action" id="action-block-profile"
+                type="button"
+                hx-get=""
+                hx-trigger="click"
+                hx-target=".posts-container"
+                name="Block profile">
+                <i class="fi fi-rr-cross-circle"></i>
+            </li>
+            <li class="action" id="action-mute"
+                type="button"
+                hx-delete=""
+                hx-trigger="click"
+                hx-target=".posts-container"
+                hx-confirm="Are you sure you want to delete?"
+                name="Mute profile">
+                <i class="fi fi-sr-volume-mute"></i>
+            </li> 
+          </div>
+
+        </div>
       </div>
   
     </div>
