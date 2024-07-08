@@ -3,6 +3,7 @@
     <div class="post-question">
         {{post.answer.question}}</br>
         <span class="question-author">
+        <i class="fi fi-sr-user"></i>
         {%if post.answer.question.is_anon == False%}
             <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
         {%else%}
