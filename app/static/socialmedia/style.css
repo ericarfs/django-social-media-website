@@ -382,6 +382,11 @@ select:-webkit-autofill {
    
 }
 
+.question-author .fi{
+    font-size: 0.8em;
+   
+}
+
 .post-answer{
     display: flex;
     flex-direction: column;
