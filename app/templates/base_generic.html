@@ -35,19 +35,18 @@
   </head>
   <body>
     <header class="menu-header">
-      <div class = "menu top-menu">
+      <div class = "top-menu">
         <div class="logo-menu">
           <a  href="/">YOUniverse</a>
         </div>
           <nav class="nav-menu" >
-            <ul class="nav-list">
-              
-              <li class="icon"><a href="/"> <i class="fi fi-rr-home"></i> </a></li>
-              <li class="icon"><a href="/"> <i class="fi fi-rr-search"></i> </a></li>
-              <li class="icon"><a href="{% url 'pages:profile-detail'  request.user %}"> <i class="fi fi-rr-user"></i> </a></li>
-              <li class="icon"><a href="/"> <i class="fi fi-rr-bell"></i> </a></li>
-              <li class="icon"><a href="{% url 'pages:profile-inbox'%}"> <i class="fi fi-rr-envelope"></i> </a></li>
-              <li class="icon"><a href="{% url 'user:logout'%}"> <i class="fi fi-rr-sign-out-alt"></i> </a></li>
+            <ul class="nav-list"> 
+              <li class="nav-icon"><a href="/"> <i class="fi fi-rr-home"></i> </a></li>
+              <li class="nav-icon"><a href="/"> <i class="fi fi-rr-search"></i> </a></li>
+              <li class="nav-icon"><a href="{% url 'pages:profile-detail'  request.user %}"> <i class="fi fi-rr-user"></i> </a></li>
+              <li class="nav-icon"><a href="/"> <i class="fi fi-rr-bell"></i> </a></li>
+              <li class="nav-icon"><a href="{% url 'pages:profile-inbox'%}"> <i class="fi fi-rr-envelope"></i> </a></li>
+              <li class="nav-icon"><a href="{% url 'user:logout'%}"> <i class="fi fi-rr-sign-out-alt"></i> </a></li>
             </ul>
           </nav>        
       </div>

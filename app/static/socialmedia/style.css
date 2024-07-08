@@ -61,40 +61,40 @@ textarea {
     background-color: var(--main-bg-white);
 }
 
+/* header style*/
 .menu-header{
+    width: 100%;
     height: 65px;
     background-color: white;
     top: 0;left:0;position:fixed;right:0;
+    display: flex;
+    justify-content: center;
 }
 
-
-.menu{
-    height: 100%;
-    width: 100%;
-}
 
 .top-menu{
     height: 65px;
-
+    width: 100%;
+    max-width: 1000px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     align-items: center;
-    gap:6%;
 }
 
 .logo-menu{
-    font-size: 26px;
+    flex: 1 0;
+    font-size: 28px;
     text-transform: uppercase;
     letter-spacing: 3px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width:428px;
+    min-width:500px;
     
 }
+
 
 .logo-menu a{
     text-decoration: none;
@@ -103,9 +103,10 @@ textarea {
 }
 
 .nav-menu{
-    width: 100%;
-    max-width: 428px;
+    flex: 1 0;
+    width: 428px;
     height: 100%;
+    background-color: white;
 }
 
 .nav-list {
@@ -115,12 +116,12 @@ textarea {
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: white;
+   
     
 }
   
 
-.icon{
+.nav-icon{
     width: 46px;
     height: 46px;
     display: flex;
@@ -130,20 +131,21 @@ textarea {
 
 }
 
-.icon a{
+.nav-icon a{
     text-decoration: none;
 }
 
 
-.icon .fi{
+.nav-icon .fi{
     font-size: 26px;
     color: var(--pink-details);
 }
 
-.icon .fi:hover{
+.nav-icon .fi:hover{
     color: var(--pink-darker);
 }
 
+/**************************************/
 
 .main-page{
     background-color: var(--main-bg-white);
@@ -250,7 +252,6 @@ textarea {
 
 .home-redirect {
     display: flex;
-    /*background: #29262c;*/
     justify-content: center;
     padding: 10px 0 20px;
 }
@@ -339,36 +340,40 @@ select:-webkit-autofill {
   -webkit-text-fill-color: black !important;
 }
 
+.posts-container{
+    width: 100%;
+}
+
 .main-content{
     max-width: 1024px;
-    width: 98%;
+    width: 99%;
     min-height: 100px;
     margin-top: 90px;
     margin-bottom: 40px;
     display: flex;
-    flex-direction: column;
-    
 }
 
+/* post style*/
 .post{
     background-color: white;
     width: 100%;
     border-radius: 10px;
     padding: 10px 14px;
     margin-bottom: 8px;
+    font-size: 1.2rem;
 }
 
 
 .post-question{
     width: 100%;
-    border-bottom: 1px solid #d9d9d9;
     font-weight:bold;
     padding-bottom: 8px;
+    border-bottom: 1px solid #d9d9d9;
 }
 
 .question-author{
     color: var(--main-pink);
-    font-size: 0.9rem;
+    font-size: 0.9em;
 }
 
 .question-author a{
@@ -378,36 +383,38 @@ select:-webkit-autofill {
 }
 
 .post-answer{
-    width: 100%;
-    border-bottom: 1px solid #d9d9d9;
-    padding-bottom: 10px;
-    padding-top: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 10px;
+    padding-top: 8px;   
 }
 
-.user-icon{
+
+.answer-content{
+    width: 100%;
+    padding-bottom: 16px;
+}
+
+.answer-author{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.author-icon{
+    flex-shrink: 0;
     width: 40px;
     height: 40px;
     border-radius: 40px;
     border: 2px solid var(--pink-details);
-    margin-right: 10px;
-    
 }
 
-.answer-content{
-    width: 100%;
-    padding-bottom: 6px;
-}
-
-.answer-author{
-    padding-top: 6px;
-    display: flex;
-    flex-direction: row;
-}
-
-.author-user a{
+.author-user a, .post-creation a{
     color: black;
     text-decoration: none;
 }
@@ -417,23 +424,26 @@ select:-webkit-autofill {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 8px;
+    padding-top: 8px;
 }
+
 .post-action{
     list-style: none;
-    padding-bottom: 8px;
     display: flex;
     justify-content: space-between;
-    gap: 2px;
-    min-width: 90px;
+    gap: 10px;
+    min-width: 48px;
     height: 30px;
+
 }
 
 .action{
-    width: 37px;
+    min-width: 24px;
     height: 30px;
     display: flex;
-    justify-content: space-around;
-    padding-top: 4%;
+    justify-content: start;
+    gap: 4px;
+    align-items: center;
     font-size: 1.1rem;
 }
 
@@ -454,6 +464,7 @@ select:-webkit-autofill {
     color: var(--blue-details);
 }
 
+/************************/
 
 .profile-main{
     width: 100%;
@@ -586,7 +597,6 @@ select:-webkit-autofill {
     background-color: white;
     border-radius: 10px;
     padding: 10px;
-
 }
 
 

@@ -16,17 +16,19 @@
             {{post.answer}} </br>
         </div>
         <div class="answer-author">
-            <div class="user-icon">
+            <div class="author-icon">
             </div>
             <span class="author-user">
-            <a href="{% url 'pages:profile-detail' post.author %}"> <b>{{post.author}} </b></a> •  
+            <a href="{% url 'pages:profile-detail' post.author %}"> <b>{{post.author}} </b></a> 
+            </span> 
+            • 
+            <span class="post-creation">  
             <a href="{% url 'pages:post-detail' post.author post.id %}"> {{post.get_created_at}}</a> 
-            
             </span>
         
         </div>
-    
     </div>
+
     <div class="post-action-container">
         <div class="post-action">
             <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
@@ -46,7 +48,6 @@
         {% endif %}
         
         {%if request.user.username == profile.get_user %}
-        
             <li class="action" id="action-edit"
                 type="button"
                 hx-get="{%url 'pages:edit-post' request.user post.id %}"
@@ -67,5 +68,6 @@
         {% endif %}
         </div>
     </div>   
+    
 </div>
 {% endfor %}
