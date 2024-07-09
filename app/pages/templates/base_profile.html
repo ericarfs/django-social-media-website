@@ -15,13 +15,24 @@
           <h4><b>{{username}}</b></h4>        
         <div class="user-actions">
           <div class="follow-container">
+            {%if request.user.username == profile.get_user %}
             <button type="button" class="btn btn-follow"
-                    hx-post="{%url 'pages:save-question' %}"
+                    hx-post="{%url 'pages:edit-profile' %}"
                     hx-trigger="click" 
                     hx-target=".response-container"
                     hx-swap="outerHTML"
                     hx-disabled-elt="this"
-            > Follow </button>
+            > Edit</button>
+            {% else %}
+            <button type="button" class="btn btn-follow"
+                    hx-post="{%url 'pages:follow-user' %}"
+                    hx-trigger="click" 
+                    hx-target=".response-container"
+                    hx-swap="outerHTML"
+                    hx-disabled-elt="this"
+            > Follow 
+            {% endif %}
+          </button>
           </div>
           <div class="profile-actions">
             <li class="action" id="action-block-profile"
@@ -77,8 +88,12 @@
 
         <div class="send-area">
           <div>
-            <input type="checkbox" name="anon" id="hide-name" name="hide-name"/>
-            <label for="hide-name" style="color: var(--grey);">Hide your name</label>
+            {%if request.user.username == profile.get_user %}
+              <input type="checkbox" name="anon" id="hide-name" name="hide-name" disabled/>
+            {% else %}
+              <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
+            {% endif %}
+            <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
           </div>
           <div class="message-button">
             <button type="button" class="btn btn-msg"

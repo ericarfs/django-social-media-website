@@ -37,6 +37,7 @@
         {% csrf_token %}
             <textarea id="message-reply" name="body" required></textarea><br>
             <div class="send-area">
+                <span></span>
                 <div class="action-container">
                     <button class="btn btn-reply " 
                             hx-post="{%url 'pages:save-answer' question.id %}"

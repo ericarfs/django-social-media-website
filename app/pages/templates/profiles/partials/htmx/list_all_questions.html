@@ -6,7 +6,7 @@
 
             </div>
             <span class="username"> 
-                <b>
+                <b style="max-width: 100%;">
                 {% if question.is_anon == False %}
                 <a href="{% url 'pages:profile-detail' question.sent_by %}"> 
                     {{ question.sent_by}}    </a>
@@ -18,7 +18,11 @@
                 asked you
             </span>
         </div>
-        <div class="question-body">
+        <div class="question-body-container">
+            <div class="question-blank"> </div>
+            <div class="question-body">
+
+            
             {{question.body|slice:"0:264"}}
             {% if question.body|length > 264%}
             <a   href=""
@@ -27,6 +31,7 @@
                     hx-trigger="click"
                     hx-target=".inbox-main">Read more</a>
             {% endif %}
+            </div>
         </div>
         <div class="question-action">
             <div class="action-container">
@@ -54,7 +59,6 @@
                         name="Delete question">
                         <i class="fi fi-rr-trash"></i>
                     </li>
-                </button>
             </div>
         </div>
    </div>
