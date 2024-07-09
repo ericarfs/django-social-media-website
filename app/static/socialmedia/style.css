@@ -63,6 +63,7 @@ textarea {
 
 /* header style*/
 .menu-header{
+    z-index: 2;
     width: 100%;
     height: 65px;
     background-color: white;
@@ -354,7 +355,7 @@ select:-webkit-autofill {
 }
 
 /* post style*/
-.post{
+.post, .question-reply-container{
     background-color: white;
     width: 100%;
     border-radius: 10px;
@@ -400,7 +401,7 @@ select:-webkit-autofill {
 
 .answer-content{
     width: 100%;
-    padding-bottom: 16px;
+    padding-bottom: 12px;
 }
 
 .answer-author{
@@ -419,9 +420,15 @@ select:-webkit-autofill {
     border: 2px solid var(--pink-details);
 }
 
-.author-user a, .post-creation a{
+.author-user a{
     color: black;
     text-decoration: none;
+
+}
+
+.post-creation a{
+    font-size: 0.8em;
+    color: var(--grey);
 }
 
 .post-action-container{
@@ -436,20 +443,22 @@ select:-webkit-autofill {
     list-style: none;
     display: flex;
     justify-content: space-between;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
     min-width: 48px;
-    height: 30px;
+    min-height: 30px;
 
 }
 
 .action{
-    min-width: 24px;
+    min-width: 25px;
     height: 30px;
     display: flex;
     justify-content: start;
-    gap: 4px;
     align-items: center;
     font-size: 1.1rem;
+    padding-top: 6px;
+    gap: 4px;
 }
 
 .action .fi{
@@ -475,14 +484,14 @@ select:-webkit-autofill {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 16px;
 }
 
 .profile-info{
     width: 100%;
-    max-width: 408px;
+    max-width: 390px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -505,6 +514,7 @@ select:-webkit-autofill {
 }
 
 .profile-icon-container{
+    flex-shrink: 0;
     width: 100px;
     height: 100px;
     border-radius: 128px;
@@ -515,7 +525,7 @@ select:-webkit-autofill {
 .profile-user{
     max-width: 60%;
     width: 256px;
-    height: 100px;;
+    min-height: 100px;;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -530,7 +540,7 @@ select:-webkit-autofill {
 }
 
 .follow-container{
-    width: 120px;
+    min-width: 120px;
     align-content: center;
 }
 
@@ -576,17 +586,25 @@ select:-webkit-autofill {
 
 }
 
+.grid{
+    display: grid; 
+    min-height: 256px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 100%;
+}
+
 .message-form-container{
     width: 100%;
-    min-height: 225px;
+    min-height: 256px;
     background-color: white;
     border-radius: 10px;
     padding: 10px;
+    grid-area: 1 / 1 ;
 }
 
 .profile-posts{
     width: 100%;
-    max-width: 600px;
+    max-width: 592px;
 }
 
 .object-not-found{
@@ -624,7 +642,7 @@ select:-webkit-autofill {
 
 #message:focus{
     transition: .07s;
-    border: 2px solid var(--pink-details);
+    border: 3px solid var(--pink-details);
     outline: 0;
 }
 
@@ -646,20 +664,23 @@ select:-webkit-autofill {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding-top: 8px;
+    padding-top: 10px;
     border-top: 1px solid #d9d9d9;
 }
 
 .response-container{
-    position: relative;
-    top: -250px;
+    grid-area: 1 / 1 ;
+    z-index: 1;
     width: 100%;
-    background-color: transparent;
+    height: 1px;
 }
+
+
 
 #message-response{
     width: 100%;
-    background-color: white;
+    height: 256px;
+    background-color: rgba(230, 230, 230, 0.5);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -668,21 +689,17 @@ select:-webkit-autofill {
 }
 
 .response-container p{
-    padding-top: 16px;
-}
-
-.response-container input{
     width: 100%;
-    background: transparent;
-    border: none;
-    border-top: 1px solid #d9d9d9;
-    padding: 4px 0;
-   
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
 }
 
-.response-container input:focus{
-    color: #808080;
-}
+
 
 .inbox-main{
     width: 100%;
@@ -713,11 +730,6 @@ select:-webkit-autofill {
     gap: 10px;
 }
 
-.question-sender .icon{
-    background-color: #cacaca;
-    border-radius: 46px;
-}
-
 .username a{
     text-decoration: none;
     color: black;
@@ -726,7 +738,7 @@ select:-webkit-autofill {
 .question-body{
     width: 100%;
     min-height: 245px;
-    padding-left: 56px;
+    padding-left: 50px;
 
 }
 
@@ -748,27 +760,25 @@ select:-webkit-autofill {
 }
 
 .action-container{
-    width: 96px;
+    min-width: 96px;
     display: flex;
-    justify-content: right;
-}
-
-.question-reply-container{
-    width: 100%;
-    background-color: white;
-    border-radius: 10px;
-    padding: 10px;
+    justify-content: flex-end;
+    gap: 20px;
 }
 
 .question-body-reply{
     width: 100%;
-    padding-left: 56px;
+    padding-left: 50px;
     height: auto;    
     padding-bottom: 10px;
 }
 
 .question-reply{
     width: 100%;
+}
+
+.fi-br-cross{
+    color: var(--blue-details);
 }
 
 
@@ -778,7 +788,7 @@ select:-webkit-autofill {
 
 #message-reply:focus{
     transition: .07s;
-    border: 2px solid var(--pink-details);
+    border: 3px solid var(--pink-details);
     outline: 0;
 }
 
@@ -818,7 +828,7 @@ select:-webkit-autofill {
 
 .post-edit{
     width: 100%;
-    padding: 10px 0;
+    padding-top: 10px;
 }
 
 

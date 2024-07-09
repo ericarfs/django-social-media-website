@@ -57,7 +57,7 @@ def delete_question(request, id):
     
     question.delete()
 
-    questions = questions = get_questions(request.user)
+    questions = get_questions(request.user)
 
     return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
 
@@ -69,7 +69,7 @@ def get_questions_by_user(request):
 
 
 def get_question_by_id(request, id):
-    question = question = Question.objects.get(id = id)
+    question =  Question.objects.get(id = id)
     return render(request, 'profiles/partials/htmx/show_question.html', {'question':question})
 
 def check_question(request):

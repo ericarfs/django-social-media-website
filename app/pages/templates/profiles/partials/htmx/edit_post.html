@@ -3,6 +3,7 @@
         <div class="post-question">
             {{post.answer.question}}</br>
             <span class="question-author">
+            <i class="fi fi-sr-user"></i>
             {%if post.answer.question.is_anon == False%}
                 <a href="{% url 'pages:profile-detail' post.answer.question_author %}">{{post.answer.question_author}} </a>
             {%else%}
@@ -26,30 +27,18 @@
                 {% csrf_token %}
                 <div class="post-edit">
                     <textarea id="message-reply" name="body" required> {{ post.answer }} </textarea><br>
-                    <div class="answer-author">
-                        <div class="user-icon">
-                        </div>
-                        <span class="author-user">
-                        <a href="{% url 'pages:profile-detail' post.answer.answer_author %}"> <b>{{post.answer.answer_author}} </b></a> • {{post.get_created_at}}</br>
-                        </span>
-                    
-                    </div>
+                   
                 </div>
                 <div class="send-area">
-                <span></span>
-                <div class="message-button">
-                    <button type="button" class="btn btn-msg"
-                            hx-post="{%url 'pages:save-post' post.id %}"
-                            hx-trigger="click" 
-                            hx-target=".posts-container"
-                    > Save </button>
-                    
-        
-                </div>
-        
-                </div>
-                
+                    <span></span>
+                    <div class="message-button">
+                        <button type="button" class="btn btn-msg"
+                                hx-post="{%url 'pages:save-post' post.id %}"
+                                hx-trigger="click" 
+                                hx-target=".posts-container"
+                        > Save </button>
+                    </div>
+               </div>
             </form>
         </div>
-    
 </div>

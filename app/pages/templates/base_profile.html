@@ -61,6 +61,7 @@
         <span>Answer</span>
       </div>
     </div>
+    <div class="grid">
     <div class="message-form-container">
       <form method="post">
         {% csrf_token %}
@@ -84,7 +85,6 @@
                     hx-post="{%url 'pages:save-question' %}"
                     hx-trigger="click" 
                     hx-target=".response-container"
-                    hx-swap="outerHTML"
                     hx-disabled-elt="this"
             > Send </button>
             
@@ -97,8 +97,8 @@
      
     </div>
     <div class="response-container">
-
     </div>
+  </div>
   </div>
  
 
@@ -106,7 +106,7 @@
     {% block posts %}
 
     {% endblock posts%}
-    </div>
+  </div>
     
 </div>
 {% endblock %}

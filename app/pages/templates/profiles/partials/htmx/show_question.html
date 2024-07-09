@@ -1,7 +1,7 @@
 <div class="question-reply-container">
     <div style="display: flex;">
         <div class="question-sender">
-            <div class="icon">
+            <div class="author-icon">
 
             </div>
             <span class="username"> 
@@ -36,13 +36,15 @@
         <form method="post">
         {% csrf_token %}
             <textarea id="message-reply" name="body" required></textarea><br>
-            <div class="action-container">
-                <button class="btn btn-reply " 
-                        hx-post="{%url 'pages:save-answer' question.id %}"
-                        hx-trigger="click"
-                        hx-target=".inbox-main">
-                        Post
-                </button>
+            <div class="send-area">
+                <div class="action-container">
+                    <button class="btn btn-reply " 
+                            hx-post="{%url 'pages:save-answer' question.id %}"
+                            hx-trigger="click"
+                            hx-target=".inbox-main">
+                            Post
+                    </button>
+                </div>
             </div>
         </form>
     </div>

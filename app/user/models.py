@@ -12,6 +12,8 @@ class Profile(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     following = models.ManyToManyField(User, related_name='following', blank = True)
     blocked = models.ManyToManyField(User, related_name='blocked_users', blank = True)
+    silenced = models.ManyToManyField(User, related_name='silenced_users', blank = True)
+    question_helper = models.TextField(max_length=200, default = "Ask me anything !", null=True, blank=True)
     allow_anonymous_questions = models.BooleanField(default = True)
 
     def get_absolute_url(self):

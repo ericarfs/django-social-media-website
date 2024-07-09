@@ -1,69 +1,68 @@
 {% if questions %}
    {% for question in questions %}
    <div class="question-container">
-    <div class="question-sender">
-        <div class="icon">
+        <div class="question-sender">
+            <div class="author-icon">
 
+            </div>
+            <span class="username"> 
+                <b>
+                {% if question.is_anon == False %}
+                <a href="{% url 'pages:profile-detail' question.sent_by %}"> 
+                    {{ question.sent_by}}    </a>
+                        
+                {% else %}
+                    anonymous
+                {% endif %} 
+                </b>
+                asked you
+            </span>
         </div>
-        <span class="username"> 
-            <b>
-            {% if question.is_anon == False %}
-            <a href="{% url 'pages:profile-detail' question.sent_by %}"> 
-                {{ question.sent_by}}    </a>
-                     
-            {% else %}
-                anonymous
-            {% endif %} 
-            </b>
-            asked you
-        </span>
-    </div>
-    <div class="question-body">
-        {{question.body|slice:"0:264"}}
-        {% if question.body|length > 264%}
-        <a   href=""
-                type="button"
-                hx-get="{%url 'pages:get-question-by-id' question.id %}"
-                hx-trigger="click"
-                hx-target=".inbox-main">Read more</a>
-        {% endif %}
-    </div>
-    <div class="question-action">
-       <div class="action-container">
-        <button class="btn inverse" 
-                hx-get="{%url 'pages:get-question-by-id' question.id %}"
-                hx-trigger="click"
-                hx-target=".inbox-main">
-                Reply
-        </button>
-       </div>
-       <div class="action-container" hx-confirm="Are you sure?">
-            <li class="action" id="action-block"
-                type="button"
-                hx-delete="{%url 'pages:block-user' question.sent_by %}"
-                hx-trigger="click"
-                hx-target=".inbox-main"
-                name="Block user">
-                <i class="fi fi-rr-cross-circle"></i></i>
-            </li>
-            <li class="action" id="action-delete"
-                type="button"
-                hx-delete="{%url 'pages:delete-question' question.id %}"
-                hx-trigger="click"
-                hx-target=".inbox-main"
-                name="Delete question">
-                <i class="fi fi-rr-trash"></i>
-            </li>
-        </button>
-       </div>
-    </div>
-    
+        <div class="question-body">
+            {{question.body|slice:"0:264"}}
+            {% if question.body|length > 264%}
+            <a   href=""
+                    type="button"
+                    hx-get="{%url 'pages:get-question-by-id' question.id %}"
+                    hx-trigger="click"
+                    hx-target=".inbox-main">Read more</a>
+            {% endif %}
+        </div>
+        <div class="question-action">
+            <div class="action-container">
+                <button class="btn inverse" 
+                        hx-get="{%url 'pages:get-question-by-id' question.id %}"
+                        hx-trigger="click"
+                        hx-target=".inbox-main">
+                        Reply
+                </button>
+            </div>
+            <div class="action-container" hx-confirm="Are you sure?">
+                    <li class="action" id="action-block"
+                        type="button"
+                        hx-delete="{%url 'pages:block-user' question.sent_by %}"
+                        hx-trigger="click"
+                        hx-target=".inbox-main"
+                        name="Block user">
+                        <i class="fi fi-rr-cross-circle"></i></i>
+                    </li>
+                    <li class="action" id="action-delete"
+                        type="button"
+                        hx-delete="{%url 'pages:delete-question' question.id %}"
+                        hx-trigger="click"
+                        hx-target=".inbox-main"
+                        name="Delete question">
+                        <i class="fi fi-rr-trash"></i>
+                    </li>
+                </button>
+            </div>
+        </div>
    </div>
    {% endfor %}
 {% else %}
    <div class="object-not-found">
-    <b>Your inbox is empty.</b> 
+        <b>Your inbox is empty.</b> 
 
-  </div>
+    </div>
 
 {% endif %}
