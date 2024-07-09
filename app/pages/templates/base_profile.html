@@ -19,16 +19,13 @@
             <button type="button" class="btn btn-follow"
                     hx-post="{%url 'pages:edit-profile' %}"
                     hx-trigger="click" 
-                    hx-target=".response-container"
-                    hx-swap="outerHTML"
                     hx-disabled-elt="this"
             > Edit</button>
             {% else %}
             <button type="button" class="btn btn-follow"
-                    hx-post="{%url 'pages:follow-user' %}"
+                    hx-post="{%url 'pages:follow-user' username %}"
                     hx-trigger="click" 
-                    hx-target=".response-container"
-                    hx-swap="outerHTML"
+                    hx-target="#followers_count"
                     hx-disabled-elt="this"
             > Follow 
             {% endif %}
@@ -60,15 +57,15 @@
     </div>
     <div class="profile-stats">
       <div class="stats">
-        <span>{{profile.followers_count}}</span>
+        <span id="followers_count">{{profile.followers_count}}</span>
         <span>Followers</span>
       </div>
       <div class="stats">
-        <span>{{profile.following_count}}</span>
+        <span id="following_count">{{profile.following_count}}</span>
         <span>Following</span>
       </div>
       <div class="stats">
-        <span>{{profile.posts_count}}</span>
+        <span id="posts_count">{{profile.posts_count}}</span>
         <span>Answer</span>
       </div>
     </div>

@@ -218,3 +218,52 @@ def save_post(request, id):
     }
 
     return render(request, 'profiles/partials/htmx/list_posts.html', context = context)
+
+@csrf_exempt
+def follow_user(request, user):
+    user_to_follow =  User.objects.get(username = user)
+    followed_profile = Profile.objects.get(user=user_to_follow)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.add_new_following(user_to_follow)
+
+    profile.save()
+
+    followers = followed_profile.followers_count
+
+    return HttpResponse(followers)
+
+
+@csrf_exempt
+def silence_user(request, user):
+    user_to_silence =  User.objects.get(username = user)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.add_new_silenced(user_to_silence)
+
+    profile.save()
+
+    return HttpResponse("Teste")
+
+@csrf_exempt
+def block_profile(request, user):
+    user_to_block =  User.objects.get(username = user)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.add_new_blocked(user_to_block)
+
+    profile.save()
+
+    return HttpResponse("Teste")
+
+@csrf_exempt
+def edit_profile(request):
+
+    return HttpResponse("Teste")
+

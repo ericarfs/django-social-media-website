@@ -22,7 +22,7 @@ class Profile(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return str(self.user.username)
+        return str(self.user)
 
     def get_user(self):
         """String for representing the Model object."""
@@ -89,6 +89,16 @@ class Profile(models.Model):
             query_set = sorted(chain(*posts), reverse = True, key=lambda obj: obj.created_at)
         
         return query_set
+    
+    def add_new_following(self, user):
+        self.following.add(user)
+    
+    def add_new_silenced(self, user):
+        self.silenced.add(user)
+    
+    def add_new_blocked(self, user):
+        self.blocked.add(user)
+    
 
     
 

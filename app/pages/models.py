@@ -125,7 +125,8 @@ class Post(models.Model):
 
             else:
                 return str(years) + " years ago"
-    
+
+
     def get_question_author(self):
         return self.answer.question_author().user
 
