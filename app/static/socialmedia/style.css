@@ -571,8 +571,17 @@ select:-webkit-autofill {
     background-color: var(--pink-darker);
 }
 
+.btn-unfollow{
+    background-color: var(--main-bg-white);
+}
+
+
 .btn-follow:hover{
     color: white;
+    font-size: 1rem;
+}
+
+.btn-unfollow:hover{
     font-size: 1rem;
 }
 
@@ -595,7 +604,12 @@ select:-webkit-autofill {
     align-items: center;
     color: var(--grey);
     font-size: 0.8rem;
+    background-color: azure;
 
+}
+
+#followers_count, #following_count, #posts_count{
+    font-size: 1.5em;
 }
 
 .grid{
@@ -773,7 +787,6 @@ select:-webkit-autofill {
 .question-blank{
     width: 56px;
     height: 10px;
-    background-color: red;
 }
 
 .question-body a{

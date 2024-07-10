@@ -38,7 +38,7 @@ def profileDetailView(request, user):
     if User.objects.filter(username = user).exists(): 
         requestedUser = User.objects.get(username = user)
         profile = Profile.objects.get(user=requestedUser)
-        posts = profile.get_my_and_following_posts()
+        posts = profile.get_my_posts()
 
         context = {
             'profile': profile,
@@ -79,4 +79,4 @@ def postDetailView(request, user, id):
         'posts': posts,
     }
     
-    return render(request, 'profiles/profile_post.html', context = context)
+    return render(request, 'profiles/profile.html', context = context)

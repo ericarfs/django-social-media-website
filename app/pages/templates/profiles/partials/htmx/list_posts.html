@@ -48,7 +48,7 @@
             </li>
         {% endif %}
         
-        {%if request.user.username == profile.get_user %}
+        {%if request.user == post.author.user %}
             <li class="action" id="action-edit"
                 type="button"
                 hx-get="{%url 'pages:edit-post' request.user post.id %}"

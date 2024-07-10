@@ -1,5 +1,5 @@
 <div class="question-reply-container">
-    <div style="display: flex;">
+    <div style="display: flex; justify-content: space-between;">
         <div class="question-sender">
             <div class="author-icon">
 
@@ -28,10 +28,11 @@
             
         </div>
     </div>
-    
+
     <div class="question-body-reply">
         {{question.body}}
     </div>
+    
     <div class="question-reply">
         <form method="post">
         {% csrf_token %}

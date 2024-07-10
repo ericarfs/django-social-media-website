@@ -21,8 +21,6 @@
         <div class="question-body-container">
             <div class="question-blank"> </div>
             <div class="question-body">
-
-            
             {{question.body|slice:"0:264"}}
             {% if question.body|length > 264%}
             <a   href=""

@@ -27,5 +27,6 @@ urlpatterns = [
     path('save_post/<int:id>',htmx_views.save_post, name = "save-post"),
     path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
     path('follow_user/<str:user>',htmx_views.follow_user, name = "follow-user"),
+    path('unfollow_user/<str:user>',htmx_views.unfollow_user, name = "unfollow-user"),
     path('edit_profile',htmx_views.edit_profile, name = "edit-profile"),
 ]

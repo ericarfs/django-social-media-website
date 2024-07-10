@@ -50,7 +50,7 @@ class Profile(models.Model):
         followers_list = []
         for profile in query_set:
             if self.user in profile.get_following():
-                followers_list.append(profile)
+                followers_list.append(profile.user)
 
         return followers_list
 
@@ -93,11 +93,20 @@ class Profile(models.Model):
     def add_new_following(self, user):
         self.following.add(user)
     
+    def remove_following(self, user):
+        self.following.remove(user)
+    
     def add_new_silenced(self, user):
         self.silenced.add(user)
     
+    def remove_silenced(self, user):
+        self.silenced.remove(user)
+    
     def add_new_blocked(self, user):
         self.blocked.add(user)
+
+    def remove_blocked(self, user):
+        self.blocked.remove(user)
     
 
     

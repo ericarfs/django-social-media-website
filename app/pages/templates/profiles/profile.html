@@ -1,5 +1,10 @@
 {% extends "base_profile.html" %}
 
+
+{% block info %}
+  {%include "profiles/partials/htmx/profile_info.html" %}
+{% endblock %}
+
 {% block posts %}
 
   <div class="posts-container">

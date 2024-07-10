@@ -231,14 +231,35 @@ def follow_user(request, user):
 
     profile.save()
 
-    followers = followed_profile.followers_count
+    context = {
+        'profile': followed_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
 
-    return HttpResponse(followers)
+@csrf_exempt
+def unfollow_user(request, user):
+    user_to_unfollow =  User.objects.get(username = user)
+    unfollowed_profile = Profile.objects.get(user=user_to_unfollow)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.remove_following(user_to_unfollow)
+
+    profile.save()
+
+    context = {
+        'profile': unfollowed_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
 
 
 @csrf_exempt
-def silence_user(request, user):
-    user_to_silence =  User.objects.get(username = user)
+def mute_user(request, user):
+    user_to_mute =  User.objects.get(username = user)
+    muted_profile = Profile.objects.get(user=user_to_mute)
 
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
@@ -247,11 +268,36 @@ def silence_user(request, user):
 
     profile.save()
 
-    return HttpResponse("Teste")
+    context = {
+        'profile': muted_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+
+
+@csrf_exempt
+def unmute_user(request, user):
+    user_to_unmute =  User.objects.get(username = user)
+    unmuted_profile = Profile.objects.get(user=user_to_unmute)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.add_new_silenced(user_to_silence)
+
+    profile.save()
+
+    context = {
+        'profile': unmuted_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+
 
 @csrf_exempt
 def block_profile(request, user):
     user_to_block =  User.objects.get(username = user)
+    blocked_profile = Profile.objects.get(user=user_to_block)
 
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
@@ -260,7 +306,31 @@ def block_profile(request, user):
 
     profile.save()
 
-    return HttpResponse("Teste")
+    context = {
+        'profile': blocked_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+
+
+@csrf_exempt
+def unblock_profile(request, user):
+    user_to_unblock =  User.objects.get(username = user)
+    unblocked_profile = Profile.objects.get(user=user_to_unblock)
+
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    profile.add_new_blocked(user_to_block)
+
+    profile.save()
+
+    context = {
+        'profile': unblocked_profile,
+        'username': user,
+    }
+    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+
 
 @csrf_exempt
 def edit_profile(request):
