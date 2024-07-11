@@ -10,7 +10,7 @@
   <div class="posts-container">
     {%if userFound == "false" %}
       <div class="object-not-found">
-        <b>User not found!</b>
+        <b>This profile doesn't exist !</b>
       </div>
 
     {% elif request.user in profile.get_blocked_by_users%}

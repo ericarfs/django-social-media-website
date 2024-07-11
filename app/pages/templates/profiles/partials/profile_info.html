@@ -3,7 +3,8 @@
 
     </div>
     <div class= "profile-user"> 
-        <h4><b>{{username}}</b></h4>        
+        <h4><b>{{username}}</b></h4>
+        {% if profile %}        
         <div class="user-actions">
             {%if request.user.username == profile.get_user %}
             <div class="edit-container">
@@ -12,9 +13,9 @@
                         hx-trigger="click" 
                         hx-disabled-elt="this"
                         hx-target="section"
-                        hx-replace-url="true"
-        
-                > Edit profile </button>
+                        hx-replace-url="true"> 
+                    Edit profile 
+                </button>
             </div>
             {% elif request.user not in  profile.get_blocked_by_users %}
                 <div class="follow-container"
@@ -71,6 +72,7 @@
             </div>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 <div class="profile-stats">
@@ -105,19 +107,24 @@
             <div class="send-area">
                 <div>
                 {%if request.user.username == profile.get_user %}
-                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" disabled/>
+                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked disabled/>
                 {% else %}
                     <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
                 {% endif %}
                 <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
             </div>
             <div class="message-button">
-                <button type="button" class="btn btn-msg"
-                    hx-post="{%url 'pages:save-question' %}"
-                    hx-trigger="click" 
-                    hx-target=".response-container"
-                    hx-disabled-elt="this"
-                > Send </button>
+                {% if profile %}
+                    <button type="button" class="btn btn-msg"
+                        hx-post="{%url 'pages:save-question' %}"
+                        hx-trigger="click" 
+                        hx-target=".response-container"
+                        hx-disabled-elt="this"> 
+                        Send 
+                    </button>
+                {%else%}
+                    <button type="button" class="btn btn-msg" disabled> Send </button>
+                {%endif%}
             </div>
         </div>
         </form>
