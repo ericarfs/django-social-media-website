@@ -27,7 +27,9 @@ urlpatterns = [
     path('get_post/<int:id>',htmx_views.get_post, name = "get-post"),
     path('save_post/<int:id>',htmx_views.save_post, name = "save-post"),
     path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
-    path('follow_user/<str:user>',htmx_views.follow_user, name = "follow-user"),
+    path('follow_unfollow_user/<str:user>',htmx_views.follow_unfollow_user, name = "follow-unfollow-user"),
     path('unfollow_user/<str:user>',htmx_views.unfollow_user, name = "unfollow-user"),
+    path('mute_user/<str:user>',htmx_views.mute_user, name = "mute-user"),
+    path('block_user/<str:user>',htmx_views.block_user, name = "block-user"),
     path('save_profile',htmx_views.save_profile_changes, name = "save-profile"),
 ]

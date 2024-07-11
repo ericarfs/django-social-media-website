@@ -17,21 +17,15 @@
                 > Edit</button>
             </div>
             {% else %}
-                <div class="follow-container">
+                <div class="follow-container"
+                    hx-post="{%url 'pages:follow-unfollow-user' username %}"
+                    hx-trigger="click" 
+                    hx-target=".profile-info"
+                    hx-disabled-elt="this">
                     {% if request.user in profile.get_followers %}
-                        <button type="button" class="btn inverse btn-unfollow"
-                                hx-post="{%url 'pages:unfollow-user' username %}"
-                                hx-trigger="click" 
-                                hx-target=".profile-info"
-                                hx-disabled-elt="this"
-                        > Unfollow </button>
+                        <button type="button" class="btn inverse btn-unfollow"> Unfollow </button>
                     {% else %}
-                        <button type="button" class="btn btn-follow"
-                                hx-post="{%url 'pages:follow-user' username %}"
-                                hx-trigger="click" 
-                                hx-target=".profile-info"
-                                hx-disabled-elt="this"
-                    > Follow </button>
+                        <button type="button" class="btn btn-follow"> Follow </button>
                     {% endif %}
                 </div>
             {% endif %}
@@ -40,18 +34,19 @@
             <div class="profile-actions">
                 <li class="action" id="action-block-profile"
                     type="button"
-                    hx-get=""
+                    hx-post="{%url 'pages:block-user' username %}"
                     hx-trigger="click"
                     hx-target=".posts-container"
+                    hx-confirm="Are you sure you want to block {{username}}?"
                     name="Block profile">
                     <i class="fi fi-rr-cross-circle"></i>
                 </li>
                 <li class="action" id="action-mute"
                     type="button"
-                    hx-delete=""
+                    hx-post="{%url 'pages:mute-user' username %}"
                     hx-trigger="click"
                     hx-target=".posts-container"
-                    hx-confirm="Are you sure you want to delete?"
+                    hx-confirm="Are you sure you want to silence {{username}}?"
                     name="Mute profile">
                     <i class="fi fi-sr-volume-mute"></i>
                 </li> 

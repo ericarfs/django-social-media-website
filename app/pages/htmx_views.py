@@ -228,19 +228,22 @@ def save_post(request, id):
     return render(request, 'profiles/partials/list_posts.html', context = context)
 
 @csrf_exempt
-def follow_user(request, user):
-    user_to_follow =  User.objects.get(username = user)
-    followed_profile = Profile.objects.get(user=user_to_follow)
+def follow_unfollow_user(request, user):
+    target_user =  User.objects.get(username = user)
+    target_profile = Profile.objects.get(user=target_user)
 
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
 
-    profile.add_new_following(user_to_follow)
+    if target_user in profile.get_following():
+        profile.remove_following(target_user)
+    else:
+        profile.add_new_following(target_user)
 
     profile.save()
 
     context = {
-        'profile': followed_profile,
+        'profile': target_profile,
         'username': user,
     }
     return render(request, 'profiles/partials/profile_info.html', context = context)
@@ -343,7 +346,7 @@ def unblock_profile(request, user):
 def save_profile_changes(request):
     print(request.POST)
     body = request.POST.get('body')
-    
+
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
 
