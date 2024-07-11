@@ -28,7 +28,6 @@
 
     <!-- custom css & js -->
     <link rel="stylesheet" href="{% static 'socialmedia/style.css' %}">
-    <!--script src="{% static 'main.js' %}" defer -->< !--/script -- >
     <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
     
     <title>{% block title %} {% endblock title %} | YOUniverse </title>
@@ -41,7 +40,7 @@
         </div>
           <nav class="nav-menu" >
             <ul class="nav-list"> 
-              <li class="nav-icon"><a href="/"> <i class="fi fi-rr-home"></i> </a></li>
+              <li class="nav-icon"><a href="{% url 'pages:home' %}"> <i class="fi fi-rr-home"></i> </a></li>
               <li class="nav-icon"><a href="/"> <i class="fi fi-rr-search"></i> </a></li>
               <li class="nav-icon"><a href="{% url 'pages:profile-detail'  request.user %}"> <i class="fi fi-rr-user"></i> </a></li>
               <li class="nav-icon"><a href="/"> <i class="fi fi-rr-bell"></i> </a></li>

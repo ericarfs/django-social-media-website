@@ -16,6 +16,7 @@ urlpatterns = [
     path('save_question',htmx_views.save_question, name = "save-question"),
     path('get_questions_by_user',htmx_views.get_questions_by_user, name = "get-questions-by-user"),
     path('<str:user>/', views.profileDetailView, name='profile-detail'),
+    path('<str:user>/edit', views.editProfileView, name='profile-edit'),
     path('block_user/<str:user>',htmx_views.block_user, name = "block-user"),
     path('delete_question/<int:id>',htmx_views.delete_question, name = "delete-question"),
     path('get_question_by_id/<int:id>',htmx_views.get_question_by_id, name = "get-question-by-id"),
@@ -28,5 +29,5 @@ urlpatterns = [
     path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
     path('follow_user/<str:user>',htmx_views.follow_user, name = "follow-user"),
     path('unfollow_user/<str:user>',htmx_views.unfollow_user, name = "unfollow-user"),
-    path('edit_profile',htmx_views.edit_profile, name = "edit-profile"),
+    path('save_profile',htmx_views.save_profile_changes, name = "save-profile"),
 ]

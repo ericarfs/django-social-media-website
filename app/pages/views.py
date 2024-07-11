@@ -2,11 +2,13 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 ############
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-
+from django.views.decorators.csrf import csrf_exempt
 from .models import Question, Answer, Post
 from user.models import User, Profile
+
 
 def redirectPNF(request, exception): return redirect('home')
 
@@ -79,4 +81,18 @@ def postDetailView(request, user, id):
         'posts': posts,
     }
     
-    return render(request, 'profiles/profile.html', context = context)
+    return render(request, 'profiles/profile_post.html', context = context)
+
+
+@login_required(login_url='/account/login')
+@csrf_exempt
+def editProfileView(request, user):
+    requestedUser =  User.objects.get(username = user)
+    profile = Profile.objects.get(user=requestedUser)
+
+    context = {
+        'profile': profile,
+        'username': user,
+    }
+    
+    return render(request, 'profiles/edit_profile.html', context = context)

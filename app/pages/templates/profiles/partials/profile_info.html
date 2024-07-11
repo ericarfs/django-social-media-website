@@ -5,14 +5,19 @@
     <div class= "profile-user"> 
         <h4><b>{{username}}</b></h4>        
         <div class="user-actions">
-            <div class="follow-container">
-                {%if request.user.username == profile.get_user %}
+            {%if request.user.username == profile.get_user %}
+            <div class="edit-container">
                 <button type="button" class="btn btn-follow"
-                        hx-post="{%url 'pages:edit-profile' %}"
+                        hx-post="{%url 'pages:profile-edit' username %}"
                         hx-trigger="click" 
                         hx-disabled-elt="this"
+                        hx-target="section"
+                        hx-replace-url="true"
+        
                 > Edit</button>
-                {% else %}
+            </div>
+            {% else %}
+                <div class="follow-container">
                     {% if request.user in profile.get_followers %}
                         <button type="button" class="btn inverse btn-unfollow"
                                 hx-post="{%url 'pages:unfollow-user' username %}"
@@ -28,8 +33,9 @@
                                 hx-disabled-elt="this"
                     > Follow </button>
                     {% endif %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
+    
             {%if request.user.username != profile.get_user %}
             <div class="profile-actions">
                 <li class="action" id="action-block-profile"
@@ -65,7 +71,7 @@
     </div>
     <div class="stats">
         <span id="posts_count">{{profile.posts_count}}</span>
-        <span>Answer</span>
+        <span>Answers</span>
     </div>
 </div>
 <div class="grid">
@@ -77,31 +83,32 @@
                     hx-get="{%url 'pages:check-question' %}" 
                     hx-trigger="keyup" 
                     hx-target=".char-count"
+                    placeholder="{{profile.question_helper}}"
             ></textarea><br>
-        <div class="char-count">
-            <span id="count">  0</span> / 1024
-        </div>
+            <div class="char-count">
+                <span id="count">  0</span> / 1024
+            </div>
 
-        <div class="send-area">
-            <div>
-            {%if request.user.username == profile.get_user %}
-                <input type="checkbox" name="anon" id="hide-name" name="hide-name" disabled/>
-            {% else %}
-                <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
-            {% endif %}
-            <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
+            <div class="send-area">
+                <div>
+                {%if request.user.username == profile.get_user %}
+                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" disabled/>
+                {% else %}
+                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
+                {% endif %}
+                <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
+            </div>
+            <div class="message-button">
+                <button type="button" class="btn btn-msg"
+                    hx-post="{%url 'pages:save-question' %}"
+                    hx-trigger="click" 
+                    hx-target=".response-container"
+                    hx-disabled-elt="this"
+                > Send </button>
+            </div>
         </div>
-        <div class="message-button">
-            <button type="button" class="btn btn-msg"
-                  hx-post="{%url 'pages:save-question' %}"
-                  hx-trigger="click" 
-                  hx-target=".response-container"
-                  hx-disabled-elt="this"
-            > Send </button>
-        </div>
-      </div>
-    </form>
-</div>
+        </form>
+    </div>
     <div class="response-container">
     </div>
 </div>

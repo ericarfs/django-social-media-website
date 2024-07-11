@@ -28,7 +28,7 @@ def block_user(request, user):
     if "inbox" in referer:
         questions = get_questions(request.user)
 
-        return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
+        return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
     
     profile = Profile.objects.get(user=request.user)
     
@@ -47,7 +47,7 @@ def block_user(request, user):
         'posts': posts,
     }
 
-    return render(request, 'profiles/partials/htmx/list_posts.html', context = context)
+    return render(request, 'profiles/partials/list_posts.html', context = context)
 
 
 @csrf_exempt
@@ -59,22 +59,22 @@ def delete_question(request, id):
 
     questions = get_questions(request.user)
 
-    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
-
+    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
 def get_questions_by_user(request):
     questions = get_questions(request.user)
-    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
 def get_question_by_id(request, id):
     question =  Question.objects.get(id = id)
-    return render(request, 'profiles/partials/htmx/show_question.html', {'question':question})
+    return render(request, 'profiles/partials/show_question.html', {'question':question})
+
 
 def check_question(request):
     body = request.GET.get('body')
-    return render(request, 'profiles/partials/htmx/check_question.html', {'body': body})
+    return render(request, 'profiles/partials/check_question.html', {'body': body})
 
 
 def save_question(request):
@@ -100,15 +100,15 @@ def save_question(request):
     message = "Question sent successfully !"
     if len(body) < 4:
         message = 'Question must contain at least 4 characters !'
-        return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
+        return render(request, 'profiles/partials/question_response.html', {'message': message})
 
     if len(body) > 1024:
         message = 'Question must contain up to 1024 characters !'
-        return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
+        return render(request, 'profiles/partials/question_response.html', {'message': message})
 
     question.save()
 
-    return render(request, 'profiles/partials/htmx/question_response.html', {'message': message})
+    return render(request, 'profiles/partials/question_response.html', {'message': message})
 
 
 
@@ -128,7 +128,7 @@ def save_answer(request, id):
 
     questions = get_questions(request.user)
 
-    return render(request, 'profiles/partials/htmx/list_all_questions.html', {'questions':questions})
+    return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
 def get_post(request, id):
@@ -142,7 +142,7 @@ def get_post(request, id):
         'post': post,
     }
 
-    return render(request, 'profiles/partials/htmx/show_post.html', context= context)
+    return render(request, 'profiles/partials/show_post.html', context= context)
 
 
 def get_posts(request):
@@ -164,7 +164,8 @@ def get_posts(request):
         'posts': posts,
     }
 
-    return render(request, 'profiles/partials/htmx/list_posts.html', context = context)
+    return render(request, 'profiles/partials/list_posts.html', context = context)
+
 
 @csrf_exempt
 @require_http_methods(['DELETE'])
@@ -176,23 +177,30 @@ def delete_post(request, id):
     profile = Profile.objects.get(user=request.user)
 
     referer = request.headers.get('Referer').split('/')
+
     posts = []
+    target = 'profile'
     if referer[-1] == 'home':
         posts = profile.get_my_and_following_posts()
+        target = 'home'
     elif referer[-1] == '':
         posts = profile.get_my_posts()
+        target = 'profile'
+    else:
+        target = 'profile_post'
 
     context = {
         'profile': profile,
         'posts': posts,
+        'username': request.user,
     }
 
-    return render(request, 'profiles/partials/htmx/list_posts.html', context = context)
+    return render(request, f'profiles/{target}.html', context = context)
 
 
 def edit_post(request, user, id):
     post = Post.objects.get(id = id)
-    return render(request, 'profiles/partials/htmx/edit_post.html', {'post': post})
+    return render(request, 'profiles/partials/edit_post.html', {'post': post})
 
 def save_post(request, id):
     post = Post.objects.get(id = id)
@@ -217,7 +225,7 @@ def save_post(request, id):
         'posts': posts,
     }
 
-    return render(request, 'profiles/partials/htmx/list_posts.html', context = context)
+    return render(request, 'profiles/partials/list_posts.html', context = context)
 
 @csrf_exempt
 def follow_user(request, user):
@@ -235,7 +243,7 @@ def follow_user(request, user):
         'profile': followed_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 @csrf_exempt
 def unfollow_user(request, user):
@@ -253,7 +261,7 @@ def unfollow_user(request, user):
         'profile': unfollowed_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
 @csrf_exempt
@@ -272,7 +280,7 @@ def mute_user(request, user):
         'profile': muted_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
 @csrf_exempt
@@ -291,7 +299,7 @@ def unmute_user(request, user):
         'profile': unmuted_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
 @csrf_exempt
@@ -310,7 +318,7 @@ def block_profile(request, user):
         'profile': blocked_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
 @csrf_exempt
@@ -329,11 +337,26 @@ def unblock_profile(request, user):
         'profile': unblocked_profile,
         'username': user,
     }
-    return render(request, 'profiles/partials/htmx/profile_info.html', context = context)
+    return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
-@csrf_exempt
-def edit_profile(request):
+def save_profile_changes(request):
+    print(request.POST)
+    body = request.POST.get('body')
+    
+    requestedUser =  User.objects.get(username = request.user)
+    profile = Profile.objects.get(user=requestedUser)
 
-    return HttpResponse("Teste")
+    profile.question_helper = body
 
+    profile.save()
+
+    posts = profile.get_my_posts()
+
+    context = {
+        'profile': profile,
+        'username': requestedUser,
+        'posts': posts,
+    }
+
+    return render(request, 'profiles/profile.html', context = context)

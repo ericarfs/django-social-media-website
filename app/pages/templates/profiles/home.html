@@ -5,7 +5,7 @@
 
 <div class="posts-container">
   {% if profile.get_my_and_following_posts %}
-    {%include "profiles/partials/htmx/list_posts.html" %}
+    {%include "profiles/partials/list_posts.html" %}
   {% else %}
   <div class="object-not-found">
     <b >Your profile is empty.</b> 

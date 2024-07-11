@@ -357,6 +357,7 @@ select:-webkit-autofill {
     margin-top: 90px;
     margin-bottom: 40px;
     display: flex;
+    justify-content: center;
 }
 
 /* post style*/
@@ -498,12 +499,29 @@ select:-webkit-autofill {
     gap: 16px;
 }
 
+.profile-info, .profile-info-edit{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    gap: 8px;
+}
+
 .profile-info{
     width: 100%;
     max-width: 390px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+}
+
+.profile-info-edit{
+    width: 100%;
+    max-width: 768px;
+}
+
+.profile-info-edit input{
+    max-width: 100%;
+    border: none;
+    background-color: var(--main-bg-white);
+    padding: 10px 14px;
+    border-radius: 25px;
 }
 
 .profile-header{
@@ -511,7 +529,7 @@ select:-webkit-autofill {
     min-height: 128px;
     background-color: white;
     border-radius: 10px;
-    padding: 10px;
+    padding: 10px 14px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -534,7 +552,7 @@ select:-webkit-autofill {
     max-width: 100%;
     min-height: 100px;;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column;
 }
@@ -552,6 +570,11 @@ select:-webkit-autofill {
 .follow-container{
     width: 100%;
     max-width: 120px;
+    align-content: center;
+}
+
+.edit-container{
+    width: 100%;
     align-content: center;
 }
 
@@ -604,8 +627,6 @@ select:-webkit-autofill {
     align-items: center;
     color: var(--grey);
     font-size: 0.8rem;
-    background-color: azure;
-
 }
 
 #followers_count, #following_count, #posts_count{
