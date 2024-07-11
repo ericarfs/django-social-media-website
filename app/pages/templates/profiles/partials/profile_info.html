@@ -18,17 +18,19 @@
                 </button>
             </div>
             {% elif request.user not in  profile.get_blocked_by_users %}
-                <div class="follow-container"
-                    hx-post="{%url 'pages:follow-unfollow-user' username %}"
-                    hx-trigger="click" 
-                    hx-target=".profile-info"
-                    hx-disabled-elt="this">
-                    {% if request.user in profile.get_followers %}
-                        <button type="button" class="btn inverse btn-unfollow"> Unfollow </button>
-                    {% else %}
-                        <button type="button" class="btn btn-follow"> Follow </button>
-                    {% endif %}
-                </div>
+                {% if request.user not in profile.get_blocked_users%}
+                    <div class="follow-container"
+                        hx-post="{%url 'pages:follow-unfollow-user' username %}"
+                        hx-trigger="click" 
+                        hx-target=".profile-info"
+                        hx-disabled-elt="this">
+                        {% if request.user in profile.get_followers %}
+                            <button type="button" class="btn inverse btn-unfollow"> Unfollow </button>
+                        {% else %}
+                            <button type="button" class="btn btn-follow"> Follow </button>
+                        {% endif %}
+                    </div>
+                {% endif %}
             {% else %}
                 <div class="follow-container"
                     hx-post="{%url 'pages:block-unblock-profile' username %}"
@@ -75,6 +77,7 @@
         {% endif %}
     </div>
 </div>
+{% if request.user not in profile.get_blocked_users %}
 <div class="profile-stats">
     <div class="stats">
         <span id="followers_count">{{profile.followers_count}}</span>
@@ -132,3 +135,4 @@
     <div class="response-container">
     </div>
 </div>
+{% endif %}

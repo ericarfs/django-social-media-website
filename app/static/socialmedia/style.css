@@ -679,7 +679,7 @@ select:-webkit-autofill {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 160px;
+    min-height: 128px;
     width: 100%;
     color: var(--brown);
     font-size: 1.5rem;
@@ -690,7 +690,7 @@ select:-webkit-autofill {
 }
 
 .btn-posts{
-    margin-top: 16px;
+    margin-top: 8px;
     max-width: 140px;
     background-color: var(--blue-details);
 }

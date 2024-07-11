@@ -2,7 +2,7 @@
 
 
 {% block info %}
-  {%include "profiles/partials/profile_info.html" %}
+    {%include "profiles/partials/profile_info.html" %}
 {% endblock %}
 
 {% block posts %}
@@ -23,9 +23,9 @@
                   hx-target=".posts-container"  
           > Show posts </button>
       </div>
+
     {% else %}
       {%include "profiles/partials/list_posts.html" %}
-
     {%endif%}
   </div>
 {% endblock %}

@@ -63,8 +63,10 @@ def profileInboxView(request):
     profile = Profile.objects.get(user=requestedUser)
 
     questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
+    blocked_users = profile.get_blocked_users()
+    questions_list = [question for question in questions if question.sent_by.user not in blocked_users]
     
-    return render(request, 'profiles/inbox.html', {'questions':questions})
+    return render(request, 'profiles/inbox.html', {'questions':questions_list})
 
 @login_required(login_url='/account/login')
 def postDetailView(request, user, id):
