@@ -15,7 +15,7 @@
         <div class="back-posts">
             <i  class="fi fi-br-cross"
                 type="button"
-                hx-get="{% url 'pages:get-posts' %}"
+                hx-get="{% url 'pages:get-posts' request.user.username %}"
                 hx-trigger="click"
                 hx-target=".posts-container"    
             ></i>

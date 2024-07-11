@@ -59,6 +59,72 @@ class Profile(models.Model):
         """Returns the number of users the account is following."""
         return len(self.get_followers())
 
+
+    """SILENCED METHODS"""
+    def get_silenced(self):
+        """Returns the users the account blocked."""
+        return self.silenced.all()
+
+    def get_silenced_users(self):
+        """Returns a list of users the account blocked."""
+        silenced_list = [user for user in self.get_silenced()]
+        return silenced_list
+
+    @property
+    def silenced_count(self):
+        """Returns the number of users the account blocked."""
+        return self.get_silenced().count()
+
+    
+    """SILENCED BY METHODS"""
+    def get_silenced_by_users(self):
+        """Returns a list of users that blocked the account."""
+        query_set = Profile.objects.all()
+        silenced_by_list = []
+        for profile in query_set:
+            if self.user in profile.get_silenced_users():
+                silenced_by_list.append(profile.user)
+
+        return silenced_by_list
+
+    @property
+    def silenced_by_count(self):
+        """Returns the number of users the account blocked."""
+        return len(self.get_silenced_by_users())
+
+
+    """BLOCKED METHODS"""
+    def get_blocked(self):
+        """Returns the users the account blocked."""
+        return self.blocked.all()
+
+    def get_blocked_users(self):
+        """Returns a list of users the account blocked."""
+        blocked_list = [user for user in self.get_blocked()]
+        return blocked_list
+
+    @property
+    def block_count(self):
+        """Returns the number of users the account blocked."""
+        return self.get_blocked().count()
+
+    
+    """BLOCKED BY METHODS"""
+    def get_blocked_by_users(self):
+        """Returns a list of users that blocked the account."""
+        query_set = Profile.objects.all()
+        blocked_by_list = []
+        for profile in query_set:
+            if self.user in profile.get_blocked_users():
+                blocked_by_list.append(profile.user)
+
+        return blocked_by_list
+
+    @property
+    def block_by_count(self):
+        """Returns the number of users the account blocked."""
+        return len(self.get_blocked_by_users())
+
     
     """POSTS METHODS"""  
     def get_my_posts(self):

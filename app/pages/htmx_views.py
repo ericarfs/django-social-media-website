@@ -144,11 +144,13 @@ def get_post(request, id):
 
     return render(request, 'profiles/partials/show_post.html', context= context)
 
-
-def get_posts(request):
-    profile = Profile.objects.get(user=request.user)
+@csrf_exempt
+def get_posts(request, user):
+    requestedUser = User.objects.get(username=user)
+    profile = Profile.objects.get(user=requestedUser)
 
     referer = request.headers.get('Referer').split('/')
+    print(referer)
     posts = []
     if referer[-1] == 'home':
         posts = profile.get_my_and_following_posts()
@@ -236,6 +238,7 @@ def follow_unfollow_user(request, user):
     profile = Profile.objects.get(user=requestedUser)
 
     if target_user in profile.get_following():
+        print("follow")
         profile.remove_following(target_user)
     else:
         profile.add_new_following(target_user)
@@ -248,99 +251,54 @@ def follow_unfollow_user(request, user):
     }
     return render(request, 'profiles/partials/profile_info.html', context = context)
 
+
 @csrf_exempt
-def unfollow_user(request, user):
-    user_to_unfollow =  User.objects.get(username = user)
-    unfollowed_profile = Profile.objects.get(user=user_to_unfollow)
+def mute_unmute_user(request, user):
+    target_user =  User.objects.get(username = user)
+    target_profile = Profile.objects.get(user=target_user)
 
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
 
-    profile.remove_following(user_to_unfollow)
+    if target_user in profile.get_silenced():
+        profile.remove_silenced(target_user)
+    else:
+        profile.add_new_silenced(target_user)
 
     profile.save()
 
     context = {
-        'profile': unfollowed_profile,
+        'profile': target_profile,
         'username': user,
     }
     return render(request, 'profiles/partials/profile_info.html', context = context)
 
 
 @csrf_exempt
-def mute_user(request, user):
-    user_to_mute =  User.objects.get(username = user)
-    muted_profile = Profile.objects.get(user=user_to_mute)
+def block_unblock_profile(request, user):
+    target_user =  User.objects.get(username = user)
+    target_profile = Profile.objects.get(user=target_user)
 
     requestedUser =  User.objects.get(username = request.user)
     profile = Profile.objects.get(user=requestedUser)
 
-    profile.add_new_silenced(user_to_silence)
+    posts = []
+    if target_user in profile.get_blocked():
+        profile.remove_blocked(target_user)
+        posts = target_profile.get_my_posts()
+    else:
+        profile.add_new_blocked(target_user)
+        profile.remove_following(target_user)
 
+    
     profile.save()
 
     context = {
-        'profile': muted_profile,
+        'profile': target_profile,
         'username': user,
+        'posts': posts,
     }
-    return render(request, 'profiles/partials/profile_info.html', context = context)
-
-
-@csrf_exempt
-def unmute_user(request, user):
-    user_to_unmute =  User.objects.get(username = user)
-    unmuted_profile = Profile.objects.get(user=user_to_unmute)
-
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    profile.add_new_silenced(user_to_silence)
-
-    profile.save()
-
-    context = {
-        'profile': unmuted_profile,
-        'username': user,
-    }
-    return render(request, 'profiles/partials/profile_info.html', context = context)
-
-
-@csrf_exempt
-def block_profile(request, user):
-    user_to_block =  User.objects.get(username = user)
-    blocked_profile = Profile.objects.get(user=user_to_block)
-
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    profile.add_new_blocked(user_to_block)
-
-    profile.save()
-
-    context = {
-        'profile': blocked_profile,
-        'username': user,
-    }
-    return render(request, 'profiles/partials/profile_info.html', context = context)
-
-
-@csrf_exempt
-def unblock_profile(request, user):
-    user_to_unblock =  User.objects.get(username = user)
-    unblocked_profile = Profile.objects.get(user=user_to_unblock)
-
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    profile.add_new_blocked(user_to_block)
-
-    profile.save()
-
-    context = {
-        'profile': unblocked_profile,
-        'username': user,
-    }
-    return render(request, 'profiles/partials/profile_info.html', context = context)
+    return render(request, 'profiles/profile.html', context = context)
 
 
 def save_profile_changes(request):

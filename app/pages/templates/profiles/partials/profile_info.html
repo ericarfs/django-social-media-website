@@ -14,9 +14,9 @@
                         hx-target="section"
                         hx-replace-url="true"
         
-                > Edit</button>
+                > Edit profile </button>
             </div>
-            {% else %}
+            {% elif request.user not in  profile.get_blocked_by_users %}
                 <div class="follow-container"
                     hx-post="{%url 'pages:follow-unfollow-user' username %}"
                     hx-trigger="click" 
@@ -28,27 +28,45 @@
                         <button type="button" class="btn btn-follow"> Follow </button>
                     {% endif %}
                 </div>
+            {% else %}
+                <div class="follow-container"
+                    hx-post="{%url 'pages:block-unblock-profile' username %}"
+                    hx-trigger="click" 
+                    hx-target="section"
+                    hx-disabled-elt="this">
+                    <button type="button" class="btn btn-unblock"> Unblock </button>
+                </div>
             {% endif %}
     
             {%if request.user.username != profile.get_user %}
             <div class="profile-actions">
+                {% if request.user not in  profile.get_blocked_by_users %}
                 <li class="action" id="action-block-profile"
                     type="button"
-                    hx-post="{%url 'pages:block-user' username %}"
+                    hx-post="{%url 'pages:block-unblock-profile' username %}"
                     hx-trigger="click"
-                    hx-target=".posts-container"
-                    hx-confirm="Are you sure you want to block {{username}}?"
+                    hx-target="section"
+                    hx-confirm="Are you sure you want to block {{ username }} ?"
                     name="Block profile">
-                    <i class="fi fi-rr-cross-circle"></i>
+                    <i class="fi fi-rr-smile"></i>
                 </li>
+                {% else %}
+                <li class="action" id="action-block-profile" name="Unblock profile">
+                    <i class="fi fi-sr-face-eyes-xmarks"></i>
+                </li>
+                {% endif %}
+                
                 <li class="action" id="action-mute"
                     type="button"
-                    hx-post="{%url 'pages:mute-user' username %}"
+                    hx-post="{%url 'pages:mute-unmute-user' username %}"
                     hx-trigger="click"
-                    hx-target=".posts-container"
-                    hx-confirm="Are you sure you want to silence {{username}}?"
+                    hx-target=".profile-info"
                     name="Mute profile">
-                    <i class="fi fi-sr-volume-mute"></i>
+                    {% if request.user not in  profile.get_silenced_by_users %}
+                        <i class="fi fi-sr-volume"></i>
+                    {% else %}
+                        <i class="fi fi-sr-volume-slash muted"></i>
+                    {% endif %}
                 </li> 
             </div>
             {% endif %}

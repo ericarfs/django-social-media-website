@@ -8,23 +8,24 @@
 {% block posts %}
 
   <div class="posts-container">
-      {%if userFound == "false" %}
-        <div class="object-not-found">
-          <b>User not found!</b>
-        </div>
+    {%if userFound == "false" %}
+      <div class="object-not-found">
+        <b>User not found!</b>
+      </div>
 
-        {% else %}
+    {% elif request.user in profile.get_blocked_by_users%}
+      <div class="object-not-found">
+        <b> {{username}} is blocked ! </b> 
+          <button type="button" class="btn btn-posts"
+                  hx-post="{%url 'pages:get-posts' username %}"
+                  hx-trigger="click" 
+                  hx-disabled-elt="this"
+                  hx-target=".posts-container"  
+          > Show posts </button>
+      </div>
+    {% else %}
+      {%include "profiles/partials/list_posts.html" %}
 
-        {%if posts %}
-          {%include "profiles/partials/list_posts.html" %}
-
-        {% else %}
-        <div class="object-not-found">
-          <b >This user hasn't answered any questions yet.</b> 
-          <b style="font-size: 1.2rem;">Be the first one to ask {{ profile }} anything !</b>
-
-        </div>
-        {%endif%}
     {%endif%}
   </div>
 {% endblock %}
