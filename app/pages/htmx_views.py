@@ -149,6 +149,36 @@ def save_answer(request, id):
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
+@csrf_exempt
+def like_post(request, id):
+    post = Post.objects.get(id = id)
+    user = User.objects.get(username=request.user)
+
+    if user not in post.get_likes():
+        post.liked.add(user)
+    else:
+        post.liked.remove(user)
+
+    post.save()
+
+    return render(request, 'profiles/partials/like_button.html', {'post':post})
+
+
+@csrf_exempt
+def share_post(request, id):  
+    post = Post.objects.get(id = id)
+    user = User.objects.get(username=request.user)
+
+    if user not in post.get_shares():
+        post.shared.add(user)
+    else:
+        post.shared.remove(user)
+
+    post.save()
+
+    return render(request, 'profiles/partials/share_button.html', {'post':post})
+
+
 def get_post(request, id):
     post = Post.objects.get(id = id)
     user = User.objects.get(username=post.author)

@@ -1,0 +1,12 @@
+<li class="action" id="action-like"
+    type="button"
+    hx-post="{%url 'pages:like-post' post.id %}"
+    hx-trigger="click"
+    hx-swap="outerHTML">
+    {% if request.user in post.get_likes %}
+        <i class="fi fi-sr-heart full"> {{post.like_count}} </i>
+    {% else %}
+        <i class="fi fi-sr-heart"> {{post.like_count}} </i>
+    {% endif %}
+    
+</li>

@@ -39,8 +39,8 @@
 
             <div class="post-action-container">
                 <div class="post-action">
-                    <li class="action" id="action-like"><i class="fi fi-sr-heart"></i> {{post.like_count}}</li>
-                    <li class="action" id="action-share"><i class="fi fi-rr-share-square"></i> {{post.like_count}}</li>
+                    {% include "profiles/partials/like_button.html"%}
+                    {% include "profiles/partials/share_button.html"%}
                 </div>
                 <div class="post-action">
                 {%if request.user != post.get_question_author %}
@@ -51,7 +51,7 @@
                         hx-target=".posts-container"
                         hx-confirm="Are you sure you want to block ?"
                         name="Block user">
-                        <i class="fi fi-rr-cross-circle"></i></i>
+                        <i class="fi fi-rr-cross-circle"></i>
                     </li>
                 {% endif %}
                 

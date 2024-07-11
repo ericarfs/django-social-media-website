@@ -131,12 +131,19 @@ class Post(models.Model):
         return self.answer.question_author().user
 
 
-    def get_like(self):
+    def get_likes(self):
 	    return self.liked.all()
 	
     @property
     def like_count(self):
         return self.liked.all().count()
+    
+    def get_shares(self):
+	    return self.shared.all()
+	
+    @property
+    def share_count(self):
+        return self.shared.all().count()
 
     def get_absolute_url(self):
         """Returns the url to access a particular profile."""

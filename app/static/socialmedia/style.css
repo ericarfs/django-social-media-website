@@ -16,6 +16,7 @@
     --brown: #462913;
     --grey: #808080;
     --blue-details: #839ec1;
+    --red-details: #c18383;
     --green-dark:#658357;
 
 }
@@ -478,11 +479,20 @@ select:-webkit-autofill {
 }
 
 #action-like{
-    color: var(--main-pink);
+    color: #cacaca;;
 }
 
+#action-like .full{
+    color: var(--red-details);
+}
+
+
 #action-share{
-    color: var(--green-details);
+    color: #cacaca;;
+}
+
+#action-share .full{
+    color: var(--green-dark);;
 }
 
 #action-edit .fi{
@@ -593,7 +603,7 @@ select:-webkit-autofill {
 }
 
 #action-block-profile .fi-sr-face-eyes-xmarks{
-    color: #c18383;
+    color: var(--red-details);
 }
 
 #action-mute .muted{
@@ -679,7 +689,7 @@ select:-webkit-autofill {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 128px;
+    min-height: 456px;
     width: 100%;
     color: var(--brown);
     font-size: 1.5rem;
