@@ -38,8 +38,8 @@ def profileDetailView(request, user):
         return redirect('/home')
 
     if User.objects.filter(username = user).exists(): 
-        requestedUser = User.objects.get(username = user)
-        profile = Profile.objects.get(user=requestedUser)
+        profile = Profile.profiles.get(user=user)
+
         posts = profile.get_my_posts()
 
         context = {
@@ -59,19 +59,13 @@ def profileDetailView(request, user):
 
 @login_required(login_url='/account/login')
 def profileInboxView(request):
-    requestedUser =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requestedUser)
-
-    questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
-    blocked_users = profile.get_blocked_users()
-    questions_list = [question for question in questions if question.sent_by.user not in blocked_users]
+    questions_list = Question.questions.get_queryset(user = request.user)
     
     return render(request, 'profiles/inbox.html', {'questions':questions_list})
 
 @login_required(login_url='/account/login')
 def postDetailView(request, user, id):
-    requestedUser =  User.objects.get(username = user)
-    profile = Profile.objects.get(user=requestedUser)
+    profile = Profile.profiles.get(user=user)
 
     posts = []
     if Post.objects.filter(id = id).exists(): 
@@ -89,8 +83,7 @@ def postDetailView(request, user, id):
 @login_required(login_url='/account/login')
 @csrf_exempt
 def editProfileView(request, user):
-    requestedUser =  User.objects.get(username = user)
-    profile = Profile.objects.get(user=requestedUser)
+    profile = Profile.objects.get(user=request.user)
 
     context = {
         'profile': profile,

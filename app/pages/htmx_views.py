@@ -6,29 +6,17 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 
 
-def get_questions(user):
-    requested_user =  User.objects.get(username = user)
-    profile = Profile.objects.get(user=requested_user)
-
-    questions = Question.objects.filter(sent_to = profile, is_answered=False).order_by('-created_at')
-    blocked_users = profile.get_blocked_users()
-    questions_list = [question for question in questions if question.sent_by.user not in blocked_users]
-
-    return questions_list
-
-    
 @csrf_exempt
 @require_http_methods(['DELETE'])
 def block_user_inbox(request, user):
     blocked_user = User.objects.get(username = user)
 
-    user = User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=user)
+    profile = Profile.objects.get(user=request.user)
 
-    profile.add_new_blocked(blocked_user)
-    profile.remove_following(blocked_user)
+    profile.blocked.add(blocked_user)
+    profile.following.remove(blocked_user)
 
-    questions = get_questions(request.user)
+    questions = Question.questions.get_queryset(user = request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
@@ -39,11 +27,10 @@ def block_user_post(request, user):
     blocked_user = User.objects.get(username = user)
     blocked_profile = Profile.objects.get(user=blocked_user)
 
-    user = User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=user)
+    profile = Profile.objects.get(user=request.user)
 
-    profile.add_new_blocked(blocked_user)
-    profile.remove_following(blocked_user)
+    profile.blocked.add(blocked_user)
+    profile.following.remove(blocked_user)
 
     referer = request.headers.get('Referer').split('/')
 
@@ -74,13 +61,13 @@ def delete_question(request, id):
     
     question.delete()
 
-    questions = get_questions(request.user)
+    questions = Question.questions.get_queryset(user = request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
 def get_questions_by_user(request):
-    questions = get_questions(request.user)
+    questions = Question.questions.get_queryset(user = request.user)
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
 
@@ -100,12 +87,10 @@ def save_question(request):
     anon = request.POST.get('anon')
     
     is_anon = True if anon == "on" else False
-
-    sent_by_user = User.objects.get(username = request.user)
-    sent_by = Profile.objects.get(user=sent_by_user)
-
-    sent_to_user = User.objects.get(username = user)
-    sent_to = Profile.objects.get(user=sent_to_user)
+    
+    sent_by_user = User.objects.get(username=request.user)
+    sent_by = Profile.objects.get(user=request.user)
+    sent_to = Profile.profiles.get(user=user)
 
     question = Question(
         sent_to = sent_to,
@@ -144,7 +129,7 @@ def save_answer(request, id):
     question.save()
     answer.save()
 
-    questions = get_questions(request.user)
+    questions = Question.questions.get_queryset(user = request.user)
 
     return render(request, 'profiles/partials/list_all_questions.html', {'questions':questions})
 
@@ -194,8 +179,7 @@ def get_post(request, id):
 
 @csrf_exempt
 def get_posts(request, user):
-    requested_user = User.objects.get(username=user)
-    profile = Profile.objects.get(user=requested_user)
+    profile = Profile.profiles.get(user=user)
 
     referer = request.headers.get('Referer').split('/')
 
@@ -284,13 +268,12 @@ def follow_unfollow_user(request, user):
     target_user =  User.objects.get(username = user)
     target_profile = Profile.objects.get(user=target_user)
 
-    requested_user =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requested_user)
+    profile = Profile.objects.get(user=request.user)
 
     if target_user in profile.get_following():
-        profile.remove_following(target_user)
+        profile.following.remove(target_user)
     else:
-        profile.add_new_following(target_user)
+        profile.following.add(target_user)
 
     profile.save()
 
@@ -306,13 +289,12 @@ def mute_unmute_user(request, user):
     target_user =  User.objects.get(username = user)
     target_profile = Profile.objects.get(user=target_user)
 
-    requested_user =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requested_user)
+    profile = Profile.objects.get(user=request.user)
 
     if target_user in profile.get_silenced():
-        profile.remove_silenced(target_user)
+        profile.silenced.remove(target_user)
     else:
-        profile.add_new_silenced(target_user)
+        profile.silenced.add(target_user)
 
     profile.save()
 
@@ -328,16 +310,15 @@ def block_unblock_profile(request, user):
     target_user =  User.objects.get(username = user)
     target_profile = Profile.objects.get(user=target_user)
 
-    requested_user =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requested_user)
+    profile = Profile.objects.get(user=request.user)
 
     posts = []
     if target_user in profile.get_blocked():
-        profile.remove_blocked(target_user)
+        profile.blocked.remove(target_user)
         posts = target_profile.get_my_posts()
     else:
-        profile.add_new_blocked(target_user)
-        profile.remove_following(target_user)
+        profile.blocked.add(target_user)
+        profile.following.remove(target_user)
 
     
     profile.save()
@@ -353,9 +334,8 @@ def block_unblock_profile(request, user):
 def save_profile_changes(request):
     body = request.POST.get('body')
 
-    requested_user =  User.objects.get(username = request.user)
-    profile = Profile.objects.get(user=requested_user)
-
+    profile = Profile.objects.get(user=request.user)
+    
     profile.question_helper = body
 
     profile.save()
@@ -364,7 +344,7 @@ def save_profile_changes(request):
 
     context = {
         'profile': profile,
-        'username': requested_user,
+        'username': request.user,
         'posts': posts,
     }
 

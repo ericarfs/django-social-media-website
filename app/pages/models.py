@@ -5,6 +5,7 @@ from django.urls import reverse  # To generate URLS by reversing URL patterns
 from user.models import Profile 
 from django.utils import timezone, dateformat
 from django.core.validators import MinLengthValidator
+from .managers import QuestionManager
 import math
 
 # Create your models here.
@@ -18,6 +19,9 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_anon = models.BooleanField(default = True)
     is_answered = models.BooleanField(default = False)
+
+    objects = models.Manager() 
+    questions = QuestionManager()
 	
     def __str__(self):
         """String for representing the Model object."""

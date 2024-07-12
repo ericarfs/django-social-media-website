@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.urls import reverse 
 from itertools import chain
+from .managers import ProfileManager
 
 # Create your models here.
 
@@ -15,6 +16,9 @@ class Profile(models.Model):
     silenced = models.ManyToManyField(User, related_name='silenced_users', blank = True)
     question_helper = models.TextField(max_length=200, default = "Ask me anything !", null=True, blank=True)
     allow_anonymous_questions = models.BooleanField(default = True)
+
+    objects = models.Manager()
+    profiles = ProfileManager()
 
     def get_absolute_url(self):
         """Returns the url to access a particular profile."""
@@ -155,24 +159,6 @@ class Profile(models.Model):
             query_set = sorted(chain(*posts), reverse = True, key=lambda obj: obj.created_at)
         
         return query_set
-    
-    def add_new_following(self, user):
-        self.following.add(user)
-    
-    def remove_following(self, user):
-        self.following.remove(user)
-    
-    def add_new_silenced(self, user):
-        self.silenced.add(user)
-    
-    def remove_silenced(self, user):
-        self.silenced.remove(user)
-    
-    def add_new_blocked(self, user):
-        self.blocked.add(user)
-
-    def remove_blocked(self, user):
-        self.blocked.remove(user)
     
 
     
