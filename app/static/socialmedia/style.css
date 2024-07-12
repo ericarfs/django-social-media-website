@@ -376,7 +376,8 @@ select:-webkit-autofill {
     width: 100%;
     font-weight:bold;
     padding-bottom: 8px;
-    border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid #e9e9e9;
+
 }
 
 .question-author{
@@ -400,7 +401,7 @@ select:-webkit-autofill {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid #e9e9e9;
     padding-bottom: 10px;
     padding-top: 8px;   
 }
@@ -425,7 +426,7 @@ select:-webkit-autofill {
     height: 40px;
     max-width: 100%;
     border-radius: 40px;
-    border: 2px solid var(--pink-details);
+    outline: 2px solid var(--pink-details);
 }
 
 .author-user{
@@ -541,8 +542,9 @@ select:-webkit-autofill {
     min-height: 128px;
     background-color: white;
     border-radius: 10px;
-    padding: 10px 14px;
+    padding: 20px 14px 10px 14px;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
@@ -555,8 +557,9 @@ select:-webkit-autofill {
     height: 96px;
     max-width: 100%;
     border-radius: 128px;
+    outline: 5px solid var(--blue-details);
     margin: 0 16px 0 8px;
-    background-color: var(--grey);
+    background-color: var(--main-bg-white);
 }
 
 .profile-user{
@@ -564,13 +567,14 @@ select:-webkit-autofill {
     max-width: 100%;
     min-height: 100px;;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
 .user-actions{
-    width: 100%;
+    max-width: 100%;
+    width: 240px;
     min-height: 50px;
     display: flex;
     flex-wrap: wrap;
@@ -727,6 +731,7 @@ select:-webkit-autofill {
 
 #message{
     height: 165px;
+    margin-bottom: 8px;
 }
 
 #message:focus{
@@ -754,7 +759,7 @@ select:-webkit-autofill {
     flex-wrap: wrap;
     justify-content: space-between;
     padding-top: 10px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #e9e9e9;
 }
 
 .response-container{
