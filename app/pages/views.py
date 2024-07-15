@@ -112,7 +112,7 @@ def editProfileView(request, user):
 
     context = {
         'profile': profile,
-        'username': user,
+        'username': request.user,
     }
     
     return render(request, 'profiles/edit_profile.html', context = context)

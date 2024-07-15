@@ -341,10 +341,14 @@ def block_unblock_profile(request, user):
 
 def save_profile_changes(request):
     body = request.POST.get('body')
+    anon = request.POST.get('anon')
 
     profile = Profile.objects.get(user=request.user)
     
+    allow_anon = True if anon == "on" else False
+
     profile.question_helper = body
+    profile.allow_anonymous_questions = allow_anon
 
     profile.save()
 

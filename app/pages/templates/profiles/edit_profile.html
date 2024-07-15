@@ -31,7 +31,14 @@
             <div class="message-form-container">
                 <textarea id="message" name="body" required>{{profile.question_helper}}</textarea>
                 <div class="send-area">
-                    <span></span>
+                    <div>
+                    {%if profile.allow_anonymous_questions %}
+                        <input type="checkbox" name="anon" id="allow_anon" name="allow_anon" checked />
+                    {% else %}
+                        <input type="checkbox" name="anon" id="allow_anon" name="allow_anon"/>
+                    {% endif %}
+                        <label for="allow_anon" style=" color: var(--grey);">Allow anonymous questions</label>
+                    </div>
                     <div class="message-button">
                         <button type="button" class="btn btn-msg"
                             hx-post="{%url 'pages:save-profile' %}"
