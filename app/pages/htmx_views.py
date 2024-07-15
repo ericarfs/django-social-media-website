@@ -92,14 +92,10 @@ def save_question(request):
     sent_by = Profile.objects.get(user=request.user)
     sent_to = Profile.profiles.get(user=user)
 
-    question = Question(
-        sent_to = sent_to,
-        sent_by = sent_by,
-        body = body,
-        is_anon = is_anon
-    )
+    if is_anon == True and sent_to.allow_anonymous_questions == False:
+        message = "This user doesn't allow anonymous questions !"
+        return render(request, 'profiles/partials/question_response.html', {'message': message})
     
-    message = "Question sent successfully !"
     if len(body) < 4:
         message = 'Question must contain at least 4 characters !'
         return render(request, 'profiles/partials/question_response.html', {'message': message})
@@ -108,7 +104,15 @@ def save_question(request):
         message = 'Question must contain up to 1024 characters !'
         return render(request, 'profiles/partials/question_response.html', {'message': message})
 
+    message = "Question sent successfully !"
+
     if sent_by_user not in sent_to.get_silenced() and sent_by_user not in sent_to.get_blocked():
+        question = Question(
+            sent_to = sent_to,
+            sent_by = sent_by,
+            body = body,
+            is_anon = is_anon
+        )   
         question.save()
 
     return render(request, 'profiles/partials/question_response.html', {'message': message})
