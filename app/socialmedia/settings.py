@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'pages.apps.PagesConfig',
 
+    'notifications',
+
     'crispy_forms',
 ]
 

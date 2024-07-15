@@ -1,0 +1,41 @@
+{% extends "base_generic.html" %}
+
+{% block title %} Notifications {% endblock title %}
+{% block content %}
+
+<div class="full-container">
+{% if data %}
+    {% for value in data %}
+    {% if value.link.elem2 %}
+    <a href="{% url value.link.page  value.link.elem1 value.link.elem2 %}" >
+    {% else %}
+    <a href="{% url value.link.page  value.link.elem1 %}" >
+    {% endif %}
+    <div class="question-reply-container" type="button">
+        <div style="display: flex; justify-content: space-between;">
+            <div class="question-sender">
+                <div class="author-icon">
+    
+                </div>
+                <span class="username"> 
+                    <b> {{ value.notification.actor}}   </b>      
+                        {{ value.notification.verb }} 
+                </span> 
+                
+            </div>
+        </div>
+        {% if value.description %}
+            <div class="question-body-reply">
+                {{value.description.question}}
+            </div>      
+        {% endif %}  
+    </div>
+    </a>
+    {% endfor %}
+{% else %}
+    <div class="object-not-found">
+        <b>You don't have any notification !</b>
+    </div>
+{% endif %}
+</div>
+{% endblock %}

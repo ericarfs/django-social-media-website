@@ -8,7 +8,8 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.views.decorators.csrf import csrf_exempt
 from .models import Question, Answer, Post
 from user.models import User, Profile
-
+from .notifications import get_notifications_user, notifications_count
+from notifications.models import Notification
 
 def redirectPNF(request, exception): return redirect('home')
 
@@ -58,10 +59,34 @@ def profileDetailView(request, user):
 
 
 @login_required(login_url='/account/login')
-def profileInboxView(request):
+def inboxView(request):
     questions_list = Question.questions.get_queryset(user = request.user)
     
     return render(request, 'profiles/inbox.html', {'questions':questions_list})
+
+@login_required(login_url='/account/login')
+def notificationsView(request):
+    notifications = get_notifications_user(request.user)
+    
+    notifications_list = []
+    for notification in notifications:
+        values = {}
+        values["notification"] = notification
+        values["link"] = {"page":'pages:profile-detail', "elem1":notification.actor}
+        values["description"]  = None
+        
+        if notification.description is not None:
+            answer = Answer.objects.get(id = int(notification.description))
+            post = Post.objects.get(answer=answer)
+
+            values["description"] = {"question": answer.question.body}
+            values["link"] = {"page":'pages:post-detail', "elem1":post.author.user, "elem2":post.id}
+        
+        notifications_list.append(values)
+    
+    Notification.objects.mark_all_as_read(recipient=request.user)
+
+    return render(request, 'profiles/notifications.html', {'data':notifications_list})
 
 @login_required(login_url='/account/login')
 def postDetailView(request, user, id):

@@ -4,7 +4,7 @@ from user.models import Profile, User
 from pages.models import Answer, Question, Post
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-
+from notifications.signals import notify
 
 @csrf_exempt
 @require_http_methods(['DELETE'])
@@ -108,7 +108,7 @@ def save_question(request):
         message = 'Question must contain up to 1024 characters !'
         return render(request, 'profiles/partials/question_response.html', {'message': message})
 
-    if sent_by_user not in sent_to.get_silenced() or sent_by_user not in sent_to.get_blocked():
+    if sent_by_user not in sent_to.get_silenced() and sent_by_user not in sent_to.get_blocked():
         question.save()
 
     return render(request, 'profiles/partials/question_response.html', {'message': message})
@@ -128,6 +128,9 @@ def save_answer(request, id):
     
     question.save()
     answer.save()
+
+    if request.user != question.sent_by.user:
+        notify.send(sender = request.user, recipient = question.sent_by.user, verb = "answered your question.", description=answer.id)
 
     questions = Question.questions.get_queryset(user = request.user)
 
@@ -274,6 +277,7 @@ def follow_unfollow_user(request, user):
         profile.following.remove(target_user)
     else:
         profile.following.add(target_user)
+        notify.send(sender = request.user, recipient = target_user, verb = "followed you.")
 
     profile.save()
 

@@ -42,7 +42,7 @@
             <ul class="nav-list"> 
               <li class="nav-icon"><a href="{% url 'pages:home' %}"> <i class="fi fi-rr-home"></i> </a></li>
               <li class="nav-icon"><a href="{% url 'pages:profile-detail'  request.user %}"> <i class="fi fi-rr-user"></i> </a></li>
-              <li class="nav-icon"><a href="/"> <i class="fi fi-rr-bell"></i> </a></li>
+              <li class="nav-icon"><a href="{% url 'pages:notifications'  %}"> <i class="fi fi-rr-bell"></i> </a></li>
               <li class="nav-icon"><a href="{% url 'pages:profile-inbox'%}"> <i class="fi fi-rr-envelope"></i> </a></li>
               <li class="nav-icon"><a href="{% url 'user:logout'%}"> <i class="fi fi-rr-sign-out-alt"></i> </a></li>
             </ul>
