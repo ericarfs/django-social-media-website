@@ -1,27 +1,30 @@
-{% extends "base_profile.html" %} {% block info %} {%include
-"profiles/partials/profile_info.html" %} {% endblock %} {% block posts %}
+{% extends "base_profile.html" %} 
 
-<div class="posts-container">
-  {%if userFound == "false" %}
-  <div class="object-not-found">
-    <b>This profile doesn't exist !</b>
+{% block info %}
+    {%include "profiles/partials/profile_info.html" %}
+{% endblock %}
+
+{% block posts %}
+
+  <div class="posts-container">
+    {%if userFound == "false" %}
+      <div class="object-not-found">
+        <b>This profile doesn't exist !</b>
+      </div>
+
+    {% elif request.user in profile.get_blocked_by_users%}
+      <div class="object-not-found">
+        <b> {{username}} is blocked ! </b> 
+          <button type="button" class="btn btn-posts"
+                  hx-post="{%url 'pages:get-posts' username %}"
+                  hx-trigger="click" 
+                  hx-disabled-elt="this"
+                  hx-target=".posts-container"  
+          > Show posts </button>
+      </div>
+
+    {% else %}
+      {%include "profiles/partials/list_posts.html" %}
+    {%endif%}
   </div>
-
-  {% elif request.user in profile.get_blocked_by_users%}
-  <div class="object-not-found">
-    <b> {{username}} is blocked ! </b>
-    <button
-      type="button"
-      class="btn btn-posts"
-      hx-post="{%url 'pages:get-posts' username %}"
-      hx-trigger="click"
-      hx-disabled-elt="this"
-      hx-target=".posts-container"
-    >
-      Show posts
-    </button>
-  </div>
-
-  {% else %} {%include "profiles/partials/list_posts.html" %} {%endif%}
-</div>
 {% endblock %}

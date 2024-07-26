@@ -32,6 +32,7 @@ def homeView(request):
     }
     return render(request, 'profiles/home.html', context = context)
 
+
 @login_required(login_url='/account/login')
 def profileDetailView(request, user):
    
@@ -61,8 +62,8 @@ def profileDetailView(request, user):
 @login_required(login_url='/account/login')
 def inboxView(request):
     questions_list = Question.questions.get_queryset(user = request.user)
-    
     return render(request, 'profiles/inbox.html', {'questions':questions_list})
+
 
 @login_required(login_url='/account/login')
 def notificationsView(request):
@@ -87,6 +88,7 @@ def notificationsView(request):
     Notification.objects.mark_all_as_read(recipient=request.user)
 
     return render(request, 'profiles/notifications.html', {'data':notifications_list})
+
 
 @login_required(login_url='/account/login')
 def postDetailView(request, user, id):

@@ -347,7 +347,7 @@ select:-webkit-autofill {
   -webkit-text-fill-color: black !important;
 }
 
-.full-container{
+.posts-container, .full-container{
     width: 100%;
 }
 

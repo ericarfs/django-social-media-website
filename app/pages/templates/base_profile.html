@@ -1,9 +1,15 @@
-{% extends "base_generic.html" %} {% block title %} {{username}} {% endblock
-title %} {% block content %}
+{% extends "base_generic.html" %} 
 
+{% block title %}   {{username}} {% endblock title %} 
+
+{% block content %}
 <div class="profile-main">
-  <div class="profile-info">{% block info %} {% endblock info %}</div>
+  <div class="profile-info">
+    {% block info %}  {% endblock info %}
+  </div>
 
-  <div class="profile-posts">{% block posts %} {% endblock posts%}</div>
+  <div class="profile-posts">
+    {% block posts %} {% endblock posts%}
+  </div>
 </div>
 {% endblock %}

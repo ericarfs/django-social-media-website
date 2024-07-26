@@ -1,49 +1,54 @@
 <div class="question-reply-container">
-  <div style="display: flex; justify-content: space-between">
-    <div class="question-sender">
-      <div class="author-icon"></div>
-      <span class="username">
-        <b>
-          {% if question.is_anon == False %}
-          <a href="{% url 'pages:profile-detail' question.sent_by %}">
-            {{ question.sent_by}}
-          </a>
+  <div style="display: flex; justify-content: space-between;">
+      <div class="question-sender">
+          <div class="author-icon">
 
-          {% else %} anonymous {% endif %}
-        </b>
-        asked you
-      </span>
-    </div>
-    <div class="back-questions">
-      <i
-        class="fi fi-br-cross"
-        type="button"
-        hx-get="{% url 'pages:get-questions-by-user' %}"
-        hx-trigger="click"
-        hx-target=".inbox-main"
-      ></i>
-    </div>
+          </div>
+          <span class="username"> 
+              <b>
+              {% if question.is_anon == False %}
+              <a href="{% url 'pages:profile-detail' question.sent_by %}"> 
+                  {{ question.sent_by}}    </a>
+
+              {% else %}
+                  anonymous
+              {% endif %} 
+              </b>
+              asked you
+          </span>
+
+      </div>
+      <div class="back-questions">
+          <i  class="fi fi-br-cross"
+              type="button"
+              hx-get="{% url 'pages:get-questions-by-user' %}"
+              hx-trigger="click"
+              hx-target=".inbox-main"   
+          ></i>
+
+      </div>
   </div>
 
-  <div class="question-body-reply">{{question.body}}</div>
+  <div class="question-body-reply">
+      {{question.body}}
+  </div>
 
   <div class="question-reply">
-    <form method="post">
+      <form method="post">
       {% csrf_token %}
-      <textarea id="message-reply" name="body" required></textarea><br />
-      <div class="send-area">
-        <span></span>
-        <div class="action-container">
-          <button
-            class="btn btn-reply"
-            hx-post="{%url 'pages:save-answer' question.id %}"
-            hx-trigger="click"
-            hx-target=".inbox-main"
-          >
-            Post
-          </button>
-        </div>
-      </div>
-    </form>
+          <textarea id="message-reply" name="body" required></textarea><br>
+          <div class="send-area">
+              <span></span>
+              <div class="action-container">
+                  <button class="btn btn-reply " 
+                          hx-post="{%url 'pages:save-answer' question.id %}"
+                          hx-trigger="click"
+                          hx-target=".inbox-main">
+                          Post
+                  </button>
+              </div>
+          </div>
+      </form>
   </div>
+
 </div>

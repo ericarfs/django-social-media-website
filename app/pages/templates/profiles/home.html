@@ -1,14 +1,17 @@
-{% extends "base_generic.html" %} {% block title %} {% endblock title %} {%
-block content %}
+{% extends "base_generic.html" %}
 
-<div class="full-container">
-  {% if profile.get_my_and_following_posts %} {%include
-  "profiles/partials/list_posts.html" %} {% else %}
+{% block title %} {% endblock title %}
+{% block content %}
+
+<div class="posts-container">
+  {% if profile.get_my_and_following_posts %}
+    {%include "profiles/partials/list_posts.html" %}
+  {% else %}
   <div class="object-not-found">
-    <b>Your profile is empty.</b>
-    <b style="font-size: 1.2rem"
-      >Answer some questions or follow some people to fill your feed !</b
-    >
+    <b> Your profile is empty.</b> 
+    <b style="font-size: 1.2rem;">Answer some questions or follow some people to fill your feed !</b>
+
   </div>
 </div>
-{% endif %} {% endblock %}
+{% endif %}
+{% endblock %}

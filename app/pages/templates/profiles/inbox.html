@@ -1,8 +1,9 @@
-{% extends "base_generic.html" %} {% block title %} Inbox {% endblock title %}
-{% block content %}
+{% extends "base_generic.html" %} 
 
+{% block title %} Inbox {% endblock title %}
+
+{% block content %}
 <div class="inbox-main">
   {%include "profiles/partials/list_all_questions.html" %}
 </div>
-
 {% endblock %}

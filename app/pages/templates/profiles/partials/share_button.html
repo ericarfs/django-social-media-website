@@ -1,14 +1,11 @@
-<li
-  class="action"
-  id="action-share"
-  type="button"
-  hx-post="{%url 'pages:share-post' post.id %}"
-  hx-trigger="click"
-  hx-swap="outerHTML"
->
-  {% if request.user in post.get_shares %}
-  <i class="fi fi-rr-share-square full"> {{post.share_count}} </i>
-  {% else %}
-  <i class="fi fi-rr-share-square"> {{post.share_count}} </i>
-  {% endif %}
+<li class="action" id="action-share"
+    type="button"
+    hx-post="{%url 'pages:share-post' post.id %}"
+    hx-trigger="click"
+    hx-swap="outerHTML">
+    {% if request.user in post.get_shares %}
+      <i class="fi fi-rr-share-square full"> {{post.share_count}} </i>
+    {% else %}
+      <i class="fi fi-rr-share-square"> {{post.share_count}} </i>
+    {% endif %}
 </li>

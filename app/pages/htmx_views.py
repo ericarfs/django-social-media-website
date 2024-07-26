@@ -179,6 +179,7 @@ def get_post(request, id):
 
     return render(request, 'profiles/partials/show_post.html', context= context)
 
+
 @csrf_exempt
 def get_posts(request, user):
     profile = Profile.profiles.get(user=user)
@@ -239,6 +240,7 @@ def edit_post(request, user, id):
     post = Post.objects.get(id = id)
     return render(request, 'profiles/partials/edit_post.html', {'post': post})
 
+
 def save_post(request, id):
     post = Post.objects.get(id = id)
     new_answer = request.POST.get('body')
@@ -264,6 +266,7 @@ def save_post(request, id):
     }
 
     return render(request, 'profiles/partials/list_posts.html', context = context)
+
 
 @csrf_exempt
 def follow_unfollow_user(request, user):
