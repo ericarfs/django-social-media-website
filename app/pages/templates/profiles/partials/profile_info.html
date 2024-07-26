@@ -1,138 +1,165 @@
 <div class="profile-header">
-    <div class="profile-icon-container">
-
-    </div>
-    <div class= "profile-user"> 
-        <h4><b>{{username}}</b></h4>
-        {% if profile %}        
-        <div class="user-actions">
-            {%if request.user.username == profile.get_user %}
-            <div class="edit-container">
-                <button type="button" class="btn btn-follow"
-                        hx-post="{%url 'pages:profile-edit' username %}"
-                        hx-trigger="click" 
-                        hx-disabled-elt="this"
-                        hx-target="section"
-                        hx-replace-url="true"> 
-                    Edit profile 
-                </button>
-            </div>
-            {% elif request.user not in  profile.get_blocked_by_users %}
-                {% if request.user not in profile.get_blocked_users%}
-                    <div class="follow-container"
-                        hx-post="{%url 'pages:follow-unfollow-user' username %}"
-                        hx-trigger="click" 
-                        hx-target=".profile-info"
-                        hx-disabled-elt="this">
-                        {% if request.user in profile.get_followers %}
-                            <button type="button" class="btn inverse btn-unfollow"> Unfollow </button>
-                        {% else %}
-                            <button type="button" class="btn btn-follow"> Follow </button>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% else %}
-                <div class="follow-container"
-                    hx-post="{%url 'pages:block-unblock-profile' username %}"
-                    hx-trigger="click" 
-                    hx-target="section"
-                    hx-disabled-elt="this">
-                    <button type="button" class="btn btn-unblock"> Unblock </button>
-                </div>
-            {% endif %}
-    
-            {%if request.user.username != profile.get_user %}
-            <div class="profile-actions">
-                {% if request.user not in  profile.get_blocked_by_users %}
-                <li class="action" id="action-block-profile"
-                    type="button"
-                    hx-post="{%url 'pages:block-unblock-profile' username %}"
-                    hx-trigger="click"
-                    hx-target="section"
-                    hx-confirm="Are you sure you want to block {{ username }} ?"
-                    name="Block profile">
-                    <i class="fi fi-rr-smile"></i>
-                </li>
-                {% else %}
-                <li class="action" id="action-block-profile" name="Unblock profile">
-                    <i class="fi fi-sr-face-eyes-xmarks"></i>
-                </li>
-                {% endif %}
-                
-                <li class="action" id="action-mute"
-                    type="button"
-                    hx-post="{%url 'pages:mute-unmute-user' username %}"
-                    hx-trigger="click"
-                    hx-target=".profile-info"
-                    name="Mute profile">
-                    {% if request.user not in  profile.get_silenced_by_users %}
-                        <i class="fi fi-sr-volume"></i>
-                    {% else %}
-                        <i class="fi fi-sr-volume-slash muted"></i>
-                    {% endif %}
-                </li> 
-            </div>
-            {% endif %}
-        </div>
+  <div class="profile-icon-container"></div>
+  <div class="profile-user">
+    <h4><b>{{username}}</b></h4>
+    {% if profile %}
+    <div class="user-actions">
+      {%if request.user.username == profile.get_user %}
+      <div class="edit-container">
+        <button
+          type="button"
+          class="btn btn-follow"
+          hx-post="{%url 'pages:profile-edit' username %}"
+          hx-trigger="click"
+          hx-disabled-elt="this"
+          hx-target="section"
+          hx-replace-url="true"
+        >
+          Edit profile
+        </button>
+      </div>
+      {% elif request.user not in profile.get_blocked_by_users %} {% if
+      request.user not in profile.get_blocked_users%}
+      <div
+        class="follow-container"
+        hx-post="{%url 'pages:follow-unfollow-user' username %}"
+        hx-trigger="click"
+        hx-target=".profile-info"
+        hx-disabled-elt="this"
+      >
+        {% if request.user in profile.get_followers %}
+        <button type="button" class="btn inverse btn-unfollow">Unfollow</button>
+        {% else %}
+        <button type="button" class="btn btn-follow">Follow</button>
         {% endif %}
+      </div>
+      {% endif %} {% else %}
+      <div
+        class="follow-container"
+        hx-post="{%url 'pages:block-unblock-profile' username %}"
+        hx-trigger="click"
+        hx-target="section"
+        hx-disabled-elt="this"
+      >
+        <button type="button" class="btn btn-unblock">Unblock</button>
+      </div>
+      {% endif %} {%if request.user.username != profile.get_user %}
+      <div class="profile-actions">
+        {% if request.user not in profile.get_blocked_by_users %}
+        <li
+          class="action"
+          id="action-block-profile"
+          type="button"
+          hx-post="{%url 'pages:block-unblock-profile' username %}"
+          hx-trigger="click"
+          hx-target="section"
+          hx-confirm="Are you sure you want to block {{ username }} ?"
+          name="Block profile"
+        >
+          <i class="fi fi-rr-smile"></i>
+        </li>
+        {% else %}
+        <li class="action" id="action-block-profile" name="Unblock profile">
+          <i class="fi fi-sr-face-eyes-xmarks"></i>
+        </li>
+        {% endif %}
+
+        <li
+          class="action"
+          id="action-mute"
+          type="button"
+          hx-post="{%url 'pages:mute-unmute-user' username %}"
+          hx-trigger="click"
+          hx-target=".profile-info"
+          name="Mute profile"
+        >
+          {% if request.user not in profile.get_silenced_by_users %}
+          <i class="fi fi-sr-volume"></i>
+          {% else %}
+          <i class="fi fi-sr-volume-slash muted"></i>
+          {% endif %}
+        </li>
+      </div>
+      {% endif %}
     </div>
+  </div>
 </div>
 {% if request.user not in profile.get_blocked_users %}
 <div class="profile-stats">
-    <div class="stats">
-        <span id="followers_count">{{profile.followers_count}}</span>
-        <span>Followers</span>
-    </div>
-    <div class="stats">
-        <span id="following_count">{{profile.following_count}}</span>
-        <span>Following</span>
-    </div>
-    <div class="stats">
-        <span id="posts_count">{{profile.posts_count}}</span>
-        <span>Answers</span>
-    </div>
+  <div class="stats">
+    <span id="followers_count">{{profile.followers_count}}</span>
+    <span>Followers</span>
+  </div>
+  <div class="stats">
+    <span id="following_count">{{profile.following_count}}</span>
+    <span>Following</span>
+  </div>
+  <div class="stats">
+    <span id="posts_count">{{profile.posts_count}}</span>
+    <span>Answers</span>
+  </div>
 </div>
 <div class="grid">
-    <div class="message-form-container">
-        <form method="post">
-        {% csrf_token %}
-            <input type="hidden" id="username" name="username" value={{profile.get_user}}>
-            <textarea id="message" name="body" required
-                    hx-get="{%url 'pages:check-question' %}" 
-                    hx-trigger="keyup" 
-                    hx-target=".char-count"
-                    placeholder="{{profile.question_helper}}"
-            ></textarea>
-            <div class="char-count">
-                <span id="count">  0</span> / 1024
-            </div>
+  <div class="message-form-container">
+    <form method="post">
+      {% csrf_token %}
+      <input
+        type="hidden"
+        id="username"
+        name="username"
+        value="{{profile.get_user}}"
+      />
+      <textarea
+        id="message"
+        name="body"
+        required
+        placeholder="{{profile.question_helper}}"
+      ></textarea>
+      <div class="char-count"><span id="count"> 0</span> / 1024</div>
 
-            <div class="send-area">
-                <div>
-                {%if request.user.username == profile.get_user %}
-                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked disabled/>
-                {% else %}
-                    <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
-                {% endif %}
-                    <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
-                </div>
-            <div class="message-button">
-                {% if profile %}
-                    <button type="button" class="btn btn-msg"
-                        hx-post="{%url 'pages:save-question' %}"
-                        hx-trigger="click" 
-                        hx-target=".response-container"
-                        hx-disabled-elt="this"> 
-                        Send 
-                    </button>
-                {%else%}
-                    <button type="button" class="btn btn-msg" disabled> Send </button>
-                {%endif%}
-            </div>
+      <div class="send-area">
+        <div>
+          {%if request.user.username == profile.get_user %}
+          <input
+            type="checkbox"
+            name="anon"
+            id="hide-name"
+            name="hide-name"
+            checked
+            disabled
+          />
+          {% else %}
+          <input
+            type="checkbox"
+            name="anon"
+            id="hide-name"
+            name="hide-name"
+            checked
+          />
+          {% endif %}
+          <label for="hide-name" style="color: var(--grey)"
+            >Hide your name</label
+          >
         </div>
-        </form>
-    </div>
-    <div class="response-container">
-    </div>
+        <div class="message-button">
+          {% if profile %}
+          <button
+            type="button"
+            class="btn btn-msg"
+            hx-post="{%url 'pages:save-question' %}"
+            hx-trigger="click"
+            hx-target=".response-container"
+            hx-disabled-elt="this"
+          >
+            Send
+          </button>
+          {%else%}
+          <button type="button" class="btn btn-msg" disabled>Send</button>
+          {%endif%}
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="response-container"></div>
 </div>
 {% endif %}

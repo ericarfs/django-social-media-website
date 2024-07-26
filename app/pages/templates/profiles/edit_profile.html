@@ -1,56 +1,79 @@
-{% extends "base_generic.html" %}
-
-{% block title %} {{ username }} {% endblock title %}
-{% block content %}
+{% extends "base_generic.html" %} {% block title %} {{ username }} {% endblock
+title %} {% block content %}
 
 <form method="post" class="profile-info-edit">
-    {% csrf_token %}
-        <div class="profile-header">
-            <div class="profile-icon-container">
-        
-            </div>
-            <div class= "profile-user"> 
-                <h4><b><input type="text" id="username" name="username" value={{username}}></b></h4>           
-            </div>
+  {% csrf_token %}
+  <div class="profile-header">
+    <div class="profile-icon-container"></div>
+    <div class="profile-user">
+      <h4>
+        <b
+          ><input
+            type="text"
+            id="username"
+            name="username"
+            value="{{username}}"
+        /></b>
+      </h4>
+    </div>
+  </div>
+  <div class="profile-stats">
+    <div class="stats">
+      <span id="followers_count">{{profile.followers_count}}</span>
+      <span>Followers</span>
+    </div>
+    <div class="stats">
+      <span id="following_count">{{profile.following_count}}</span>
+      <span>Following</span>
+    </div>
+    <div class="stats">
+      <span id="posts_count">{{profile.posts_count}}</span>
+      <span>Answer</span>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="message-form-container">
+      <textarea id="message" name="body" required>
+{{profile.question_helper}}</textarea
+      >
+      <div class="send-area">
+        <div>
+          {%if profile.allow_anonymous_questions %}
+          <input
+            type="checkbox"
+            name="anon"
+            id="allow_anon"
+            name="allow_anon"
+            checked
+          />
+          {% else %}
+          <input
+            type="checkbox"
+            name="anon"
+            id="allow_anon"
+            name="allow_anon"
+          />
+          {% endif %}
+          <label for="allow_anon" style="color: var(--grey)"
+            >Allow anonymous questions</label
+          >
         </div>
-        <div class="profile-stats">
-            <div class="stats">
-                <span id="followers_count">{{profile.followers_count}}</span>
-                <span>Followers</span>
-            </div>
-            <div class="stats">
-                <span id="following_count">{{profile.following_count}}</span>
-                <span>Following</span>
-            </div>
-            <div class="stats">
-                <span id="posts_count">{{profile.posts_count}}</span>
-                <span>Answer</span>
-            </div>
+        <div class="message-button">
+          <button
+            type="button"
+            class="btn btn-msg"
+            hx-post="{%url 'pages:save-profile' %}"
+            hx-trigger="click"
+            hx-target="section"
+            hx-disabled-elt="this"
+            hx-replace-url="."
+          >
+            Save
+          </button>
         </div>
-        <div class="grid">
-            <div class="message-form-container">
-                <textarea id="message" name="body" required>{{profile.question_helper}}</textarea>
-                <div class="send-area">
-                    <div>
-                    {%if profile.allow_anonymous_questions %}
-                        <input type="checkbox" name="anon" id="allow_anon" name="allow_anon" checked />
-                    {% else %}
-                        <input type="checkbox" name="anon" id="allow_anon" name="allow_anon"/>
-                    {% endif %}
-                        <label for="allow_anon" style=" color: var(--grey);">Allow anonymous questions</label>
-                    </div>
-                    <div class="message-button">
-                        <button type="button" class="btn btn-msg"
-                            hx-post="{%url 'pages:save-profile' %}"
-                            hx-trigger="click" 
-                            hx-target="section"
-                            hx-disabled-elt="this"
-                            hx-replace-url="."
-                        > Save </button>
-                    </div>
-                </div>
-            </div>
-        </div> 
+      </div>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

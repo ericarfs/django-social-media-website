@@ -76,11 +76,6 @@ def get_question_by_id(request, id):
     return render(request, 'profiles/partials/show_question.html', {'question':question})
 
 
-def check_question(request):
-    body = request.GET.get('body')
-    return render(request, 'profiles/partials/check_question.html', {'body': body})
-
-
 def save_question(request):
     user = request.POST.get('username')
     body = request.POST.get('body')

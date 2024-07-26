@@ -13,7 +13,6 @@ urlpatterns = [
     path('home', views.homeView, name='home'),
     path('inbox/', views.inboxView, name='profile-inbox'),
     path('notifications/', views.notificationsView, name='notifications'),
-    path('check_question',htmx_views.check_question, name = "check-question"),
     path('save_question',htmx_views.save_question, name = "save-question"),
     path('get_questions_by_user',htmx_views.get_questions_by_user, name = "get-questions-by-user"),
     path('<str:user>/', views.profileDetailView, name='profile-detail'),
