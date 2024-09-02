@@ -35,7 +35,7 @@ The system must send notifications when a user receive new followers or a questi
 Inside the app folder:
 
 ```
-pip install -r requirements.tx
+pip install -r requirements.txt
 
 python manage.py runserver
 ```
