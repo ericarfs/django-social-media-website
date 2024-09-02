@@ -32,7 +32,7 @@ The system must send notifications when a user receive new followers or a questi
 Inside the app folder:
 
 ```
-pip install -r requirements.txt
+pip install -r requirements.tx
 
 python manage.py runserver
 ```
@@ -40,4 +40,21 @@ python manage.py runserver
 Go to 'http://localhost:8000/'
 
 ## Mockups
-
+### Main Page
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/MainPage.png?raw=true)
+### Login Page
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/LoginPage.png?raw=true)
+### Register Page
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/SignUpPage.png?raw=true)
+### Home
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Home.png?raw=true)
+### Profile
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Profile.png?raw=true)
+### Notifications
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Notifications.png?raw=true)
+### Inbox
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Inbox.png?raw=true)
+### Reply
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Reply.png?raw=true)
+### Post
+![Alt text](https://github.com/ericarfs/django-social-media-website/blob/main/mockups/Post.png?raw=true)
