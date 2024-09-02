@@ -9,11 +9,12 @@
           {%if request.user.username == profile.get_user %}
           <div class="edit-container">
               <button type="button" class="btn btn-follow"
-                      hx-post="{%url 'pages:profile-edit' username %}"
+                      hx-get="{%url 'pages:profile-edit' username %}"
                       hx-trigger="click" 
                       hx-disabled-elt="this"
                       hx-target="section"
-                      hx-replace-url="true"> 
+                      hx-replace-url="true"
+                      > 
                   Edit profile 
               </button>
           </div>
@@ -94,43 +95,84 @@
 </div>
 <div class="grid">
   <div class="message-form-container">
-      <form method="post">
+      <form method="post" id="question-form" action="">
       {% csrf_token %}
           <input type="hidden" id="username" name="username" value={{profile.get_user}}>
           <textarea id="message" name="body" required
-                 
                   placeholder="{{profile.question_helper}}"
           ></textarea>
-          <div class="char-count">
-              <span id="count">  0</span> / 1024
-          </div>
+          
 
           <div class="send-area">
               <div>
               {%if request.user.username == profile.get_user %}
-                  <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked disabled/>
+                  <input type="checkbox" name="anon" id="hide-name" disabled/>
               {% else %}
-                  <input type="checkbox" name="anon" id="hide-name" name="hide-name" checked/>
+                  <input type="checkbox" name="anon" id="hide-name" checked/>
               {% endif %}
                   <label for="hide-name" style=" color: var(--grey);">Hide your name</label>
               </div>
           <div class="message-button">
               {% if profile %}
-                  <button type="button" class="btn btn-msg"
-                      hx-post="{%url 'pages:save-question' %}"
-                      hx-trigger="click" 
-                      hx-target=".response-container"
-                      hx-disabled-elt="this"> 
-                      Send 
-                  </button>
+                  <button type="submit" class="btn btn-msg" value="Send" > Send </button>
+                      
               {%else%}
-                  <button type="button" class="btn btn-msg" disabled> Send </button>
+                  <button type="submit" class="btn btn-msg" value="Send" disabled> Send </button>
               {%endif%}
           </div>
       </div>
       </form>
   </div>
-  <div class="response-container">
-  </div>
+  <dialog id="response-container">
+  </dialog>
 </div>
 {% endif %}
+
+
+{% block js %}
+<script type="text/javascript" >
+  $(document).on("submit", "#question-form", function (e) {
+    e.preventDefault();
+
+    var formData = $('#question-form').serialize();
+
+    const content = document.getElementById("message")
+    const msg = content.value;
+    var message = "";
+    if (msg.length < 4)
+        message = "Question must contain at least 4 characters !";
+    else if (msg.length > 1500)
+        message = "Question must contain up to 1500 characters !";
+    if (msg.length >= 4 && msg.length <= 1500) {
+        
+        $.ajax({
+            type: "POST",
+            url: "{% url 'pages:save-question' %}",
+            data: formData,
+            success: function (data) {
+                message = data;
+                $("#response-container").empty();
+                var resp = "<p>"+message+"</p>"
+                $("#response-container").append(resp);
+                $("#message").val('');
+                document.getElementById("response-container").showModal();
+                
+            },
+        });
+    }
+    else{
+        $("#response-container").empty();
+        var resp = "<p>"+message+"</p>"
+        $("#response-container").append(resp);
+        document.getElementById("response-container").showModal();
+
+
+    }
+});
+
+$(document).on("click", "#response-container", function () {
+    $("#response-container").empty();
+    document.getElementById("response-container").close();
+})
+</script>
+{% endblock %}

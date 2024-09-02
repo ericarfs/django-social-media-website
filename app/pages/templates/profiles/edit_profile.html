@@ -1,20 +1,22 @@
 {% extends "base_generic.html" %}
-
+{% load static %}
 {% block title %} {{ username }} {% endblock title %}
 {% block content %}
 
-<form method="post" class="profile-info-edit">
+<form method="post" class="profile-info-edit" id="profile-edit">
     {% csrf_token %}
         <div class="profile-header">
             <div class="profile-icon-container">
 
             </div>
             <div class= "profile-user"> 
-                <h4><b><input type="text" id="username" name="username" value={{username}}></b></h4>           
+                <h4><b><input type="text" id="username1" name="username" value={{username}} ></b></h4>           
+                <span class="error" id="username-error"> </span>
             </div>
         </div>
         <div class="profile-stats">
             <div class="stats">
+                {{profile.notif_count}}
                 <span id="followers_count">{{profile.followers_count}}</span>
                 <span>Followers</span>
             </div>
@@ -29,7 +31,7 @@
         </div>
         <div class="grid">
             <div class="message-form-container">
-                <textarea id="message" name="body" required>{{profile.question_helper}}</textarea>
+                <textarea id="question_helper" name="body" required>{{profile.question_helper}}</textarea>
                 <div class="send-area">
                     <div>
                     {%if profile.allow_anonymous_questions %}
@@ -40,12 +42,7 @@
                         <label for="allow_anon" style=" color: var(--grey);">Allow anonymous questions</label>
                     </div>
                     <div class="message-button">
-                        <button type="button" class="btn btn-msg"
-                            hx-post="{%url 'pages:save-profile' %}"
-                            hx-trigger="click" 
-                            hx-target="section"
-                            hx-disabled-elt="this"
-                            hx-replace-url="."
+                        <button type="submit" class="btn btn-msg"
                         > Save </button>
                     </div>
                 </div>
@@ -53,4 +50,33 @@
         </div> 
 </form>
 
+{% endblock %}
+
+{% block js%}
+  <script type="text/javascript">
+    $(document).on("submit", "#profile-edit", function (e) {
+        e.preventDefault();
+
+        var formData = $('#profile-edit').serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "{%url 'pages:profile-edit' username %}",
+            data: formData,
+            success: function (response) {
+                if (response.res === "error"){
+                    $("#username-error").html(response.message)
+                }
+                else{
+                    window.location.href = "/"+response.username+"/"
+                }                    
+            },
+        });
+
+    })
+
+    $(document).on('click','#username1', function(){
+        $("#username-error").empty()
+    })
+  </script>
 {% endblock %}

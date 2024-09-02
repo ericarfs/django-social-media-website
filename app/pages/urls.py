@@ -10,13 +10,13 @@ handler404 = 'pages.views.redirectPNF' # Added this line in URLconf instead of s
 urlpatterns = [
     path('', IndexView, name='index'),
     path('about', AboutView.as_view(), name='about'),
-    path('home', views.homeView, name='home'),
+    path('home/', views.homeView, name='home'),
     path('inbox/', views.inboxView, name='profile-inbox'),
     path('notifications/', views.notificationsView, name='notifications'),
     path('save_question',htmx_views.save_question, name = "save-question"),
     path('get_questions_by_user',htmx_views.get_questions_by_user, name = "get-questions-by-user"),
     path('<str:user>/', views.profileDetailView, name='profile-detail'),
-    path('<str:user>/edit', views.editProfileView, name='profile-edit'),
+    path('<str:user>/edit/', views.editProfileView, name='profile-edit'),
     path('block_user_inbox/<str:user>',htmx_views.block_user_inbox, name = "block-user-inbox"),
     path('block_user_post/<str:user>',htmx_views.block_user_post, name = "block-user-post"),
     path('delete_question/<int:id>',htmx_views.delete_question, name = "delete-question"),
@@ -30,12 +30,10 @@ urlpatterns = [
     path('get_post/<int:id>',htmx_views.get_post, name = "get-post"),
     path('like_post/<int:id>',htmx_views.like_post, name = "like-post"),
     path('share_post/<int:id>',htmx_views.share_post, name = "share-post"),
-    path('save_post/<int:id>',htmx_views.save_post, name = "save-post"),
     path('delete_post/<int:id>',htmx_views.delete_post, name = "delete-post"),
 
     path('follow_unfollow_user/<str:user>',htmx_views.follow_unfollow_user, name = "follow-unfollow-user"),
     path('mute_unmute_user/<str:user>',htmx_views.mute_unmute_user, name = "mute-unmute-user"),
     path('block_unblock_profile/<str:user>',htmx_views.block_unblock_profile, name = "block-unblock-profile"),
     
-    path('save_profile',htmx_views.save_profile_changes, name = "save-profile"),
 ]

@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from user.models import Profile, User
 from pages.models import Answer, Question, Post
@@ -75,7 +75,7 @@ def get_question_by_id(request, id):
     question =  Question.objects.get(id = id)
     return render(request, 'profiles/partials/show_question.html', {'question':question})
 
-
+@csrf_exempt
 def save_question(request):
     user = request.POST.get('username')
     body = request.POST.get('body')
@@ -89,16 +89,8 @@ def save_question(request):
 
     if is_anon == True and sent_to.allow_anonymous_questions == False:
         message = "This user doesn't allow anonymous questions !"
-        return render(request, 'profiles/partials/question_response.html', {'message': message})
+        return HttpResponse(message)
     
-    if len(body) < 4:
-        message = 'Question must contain at least 4 characters !'
-        return render(request, 'profiles/partials/question_response.html', {'message': message})
-
-    if len(body) > 1024:
-        message = 'Question must contain up to 1024 characters !'
-        return render(request, 'profiles/partials/question_response.html', {'message': message})
-
     message = "Question sent successfully !"
 
     if sent_by_user not in sent_to.get_silenced() and sent_by_user not in sent_to.get_blocked():
@@ -110,8 +102,7 @@ def save_question(request):
         )   
         question.save()
 
-    return render(request, 'profiles/partials/question_response.html', {'message': message})
-
+    return HttpResponse(message)
 
 
 def save_answer(request, id):
@@ -237,35 +228,37 @@ def delete_post(request, id):
 
 
 def edit_post(request, user, id):
+    if request.method == "POST":
+        post = Post.objects.get(id = id)
+        new_answer = request.POST.get('body')
+
+        post.answer.body = new_answer
+
+        post.answer.save()
+        post.save()
+
+        profile = Profile.objects.get(user=request.user)
+
+        referer = request.headers.get('Referer').split('/')
+        posts = []
+        if referer[-1] == 'home':
+            posts = profile.get_my_and_following_posts()
+        elif referer[-1] == '':
+            posts = profile.get_my_posts()
+        else:
+            id = int(referer[-1] )
+            posts.append(Post.objects.get(id = id))
+
+        context = {
+            'profile': profile,
+            'posts': posts,
+            'username': request.user,
+        }
+
+        return render(request, 'profiles/partials/list_posts.html', context = context)
+        
     post = Post.objects.get(id = id)
     return render(request, 'profiles/partials/edit_post.html', {'post': post})
-
-
-def save_post(request, id):
-    post = Post.objects.get(id = id)
-    new_answer = request.POST.get('body')
-
-    post.answer.body = new_answer
-
-    post.answer.save()
-    post.save()
-
-    profile = Profile.objects.get(user=request.user)
-
-    referer = request.headers.get('Referer').split('/')
-    posts = []
-    if referer[-1] == 'home':
-        posts = profile.get_my_and_following_posts()
-    elif referer[-1] == '':
-        posts = profile.get_my_posts()
-
-    context = {
-        'profile': profile,
-        'posts': posts,
-        'username': request.user,
-    }
-
-    return render(request, 'profiles/partials/list_posts.html', context = context)
 
 
 @csrf_exempt
@@ -334,28 +327,4 @@ def block_unblock_profile(request, user):
         'username': user,
         'posts': posts,
     }
-    return render(request, 'profiles/profile.html', context = context)
-
-
-def save_profile_changes(request):
-    body = request.POST.get('body')
-    anon = request.POST.get('anon')
-
-    profile = Profile.objects.get(user=request.user)
-    
-    allow_anon = True if anon == "on" else False
-
-    profile.question_helper = body
-    profile.allow_anonymous_questions = allow_anon
-
-    profile.save()
-
-    posts = profile.get_my_posts()
-
-    context = {
-        'profile': profile,
-        'username': request.user,
-        'posts': posts,
-    }
-
     return render(request, 'profiles/profile.html', context = context)

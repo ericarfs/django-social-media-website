@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
-############
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
@@ -110,11 +110,40 @@ def postDetailView(request, user, id):
 @login_required(login_url='/account/login')
 @csrf_exempt
 def editProfileView(request, user):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        body = request.POST.get('body')
+        anon = request.POST.get('anon')
+
+        profile = Profile.objects.get(user=request.user)
+
+        if username != request.user.username and User.objects.filter(username = username).exists(): 
+            error = "Username already taken !"
+            context = {
+                "res":"error",
+                "message":error
+            }
+            return JsonResponse(context)
+
+
+        allow_anon = True if anon == "on" else False
+
+        profile.user.username = username
+        profile.question_helper = body
+        profile.allow_anonymous_questions = allow_anon
+
+        profile.user.save()
+        profile.save()
+
+        posts = profile.get_my_posts()
+
+        return JsonResponse({'username':username})
+    
     profile = Profile.objects.get(user=request.user)
 
     context = {
         'profile': profile,
         'username': request.user,
     }
-    
+        
     return render(request, 'profiles/edit_profile.html', context = context)

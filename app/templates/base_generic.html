@@ -13,6 +13,7 @@
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <!-- cropper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
@@ -33,6 +34,7 @@
     <title>{% block title %} {% endblock title %} | YOUniverse </title>
   </head>
   <body>
+    
     <header class="menu-header">
       <div class = "top-menu">
         <div class="logo-menu">
@@ -61,6 +63,7 @@
         menu
       </div>
     </footer>-->
-    
+
+    {% block js %}    {% endblock js %}   
   </body>
 </html>

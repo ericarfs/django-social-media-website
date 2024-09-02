@@ -16,7 +16,7 @@
       <div class="object-not-found">
         <b> {{username}} is blocked ! </b> 
           <button type="button" class="btn btn-posts"
-                  hx-post="{%url 'pages:get-posts' username %}"
+                  hx-get="{%url 'pages:get-posts' username %}"
                   hx-trigger="click" 
                   hx-disabled-elt="this"
                   hx-target=".posts-container"  

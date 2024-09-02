@@ -33,7 +33,7 @@
                   <span></span>
                   <div class="message-button">
                       <button type="button" class="btn btn-msg"
-                              hx-post="{%url 'pages:save-post' post.id %}"
+                              hx-post="{%url 'pages:edit-post' request.user post.id %}"
                               hx-trigger="click" 
                               hx-target=".posts-container"
                       > Save </button>

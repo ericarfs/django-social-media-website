@@ -4,6 +4,7 @@ from datetime import date
 from django.urls import reverse 
 from itertools import chain
 from .managers import ProfileManager
+from pages.notifications import notifications_count
 
 # Create your models here.
 
@@ -31,6 +32,10 @@ class Profile(models.Model):
     def get_user(self):
         """String for representing the Model object."""
         return str(self.user.username)
+
+    @property
+    def notif_count(self):
+        return notifications_count(self.user)
 
     """FOLLOWING METHODS"""
     def get_following(self):
