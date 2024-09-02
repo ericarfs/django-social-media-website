@@ -1,4 +1,5 @@
 # Question and Answer Social Website
+
 ## Project description
 
 The project consists of a simple Q&A social networking website. 
@@ -26,4 +27,17 @@ The system must send notifications when a user receive new followers or a questi
 * Answer: question, body
 * Post: answer, author, liked, shared, created_at
 
+## Quick start
+
+Inside the app folder:
+
+```
+pip install -r requirements.txt
+
+python manage.py runserver
+```
+
+Go to 'http://localhost:8000/'
+
+## Mockups
 
