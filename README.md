@@ -17,7 +17,8 @@ The system must allow users to:
 - choose whether they want to receive anonymous questions or not
 - follow other users
 - block other users (they will not be able to access the user page)
-- silence other users (they will not be able to send the user any question)
+- silence other users (they will not be able to send the user any question)]
+- edit posts
 - like posts
 - share posts
 
