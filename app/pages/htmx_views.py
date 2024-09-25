@@ -28,7 +28,7 @@ def block_user_post(request, user):
     blocked_profile = Profile.objects.get(user=blocked_user)
 
     profile = Profile.objects.get(user=request.user)
-
+    
     profile.blocked.add(blocked_user)
     profile.following.remove(blocked_user)
 
@@ -108,6 +108,7 @@ def save_question(request):
 def save_answer(request, id):
     body = request.POST.get('body')
     question = Question.objects.get(id = id)
+    profile = Profile.objects.get(user = request.user)
 
     question.is_answered = True
 
@@ -120,7 +121,7 @@ def save_answer(request, id):
     answer.save()
 
     if request.user != question.sent_by.user:
-        notify.send(sender = request.user, recipient = question.sent_by.user, verb = "answered your question.", description=answer.id)
+        notify.send(sender = profile, recipient = question.sent_by.user, verb = "answered your question.", description=answer.id)
 
     questions = Question.questions.get_queryset(user = request.user)
 
@@ -209,14 +210,16 @@ def delete_post(request, id):
 
     posts = []
     target = 'profile'
-    if referer[-1] == 'home':
+    print(referer)
+    if referer[-1].isnumeric():
+        target = 'profile_post'
+    elif referer[-2] == 'home':
         posts = profile.get_my_and_following_posts()
         target = 'home'
-    elif referer[-1] == '':
+    else:
         posts = profile.get_my_posts()
         target = 'profile'
-    else:
-        target = 'profile_post'
+
 
     context = {
         'profile': profile,
@@ -224,6 +227,7 @@ def delete_post(request, id):
         'username': request.user,
     }
 
+    print(target)
     return render(request, f'profiles/{target}.html', context = context)
 
 
@@ -272,7 +276,7 @@ def follow_unfollow_user(request, user):
         profile.following.remove(target_user)
     else:
         profile.following.add(target_user)
-        notify.send(sender = request.user, recipient = target_user, verb = "followed you.")
+        notify.send(sender = profile, recipient = target_user, verb = "followed you.")
 
     profile.save()
 

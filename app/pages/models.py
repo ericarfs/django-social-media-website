@@ -55,11 +55,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        """String for representing the Model object."""
         return str(self.pk)
     
     def get_created_at(self):
-        """String for representing the Model object."""
         created_date = self.created_at.strftime("%d/%m/%Y %H:%M:%S")
 
         return created_date
@@ -150,5 +148,5 @@ class Post(models.Model):
         return self.shared.all().count()
 
     def get_absolute_url(self):
-        """Returns the url to access a particular profile."""
+        """Returns the url to access a particular post."""
         return reverse('post-detail', args=[str(self.id)])

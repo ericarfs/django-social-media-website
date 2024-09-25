@@ -6,11 +6,10 @@ from itertools import chain
 from .managers import ProfileManager
 from pages.notifications import notifications_count
 
-# Create your models here.
-
 class Profile(models.Model):
     """Model representing an user."""
     user = models.OneToOneField(User, on_delete=models.CASCADE, default = "")
+    icon = models.ImageField(default='defaults/user.png')
     following = models.ManyToManyField(User, related_name='following', blank = True)
     blocked = models.ManyToManyField(User, related_name='blocked_users', blank = True)
     silenced = models.ManyToManyField(User, related_name='silenced_users', blank = True)

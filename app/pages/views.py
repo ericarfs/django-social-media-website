@@ -114,6 +114,7 @@ def editProfileView(request, user):
         username = request.POST.get('username')
         body = request.POST.get('body')
         anon = request.POST.get('anon')
+        image = request.POST.get('icon')
 
         profile = Profile.objects.get(user=request.user)
 
@@ -129,6 +130,7 @@ def editProfileView(request, user):
         allow_anon = True if anon == "on" else False
 
         profile.user.username = username
+        profile.icon = image
         profile.question_helper = body
         profile.allow_anonymous_questions = allow_anon
 
@@ -141,9 +143,20 @@ def editProfileView(request, user):
     
     profile = Profile.objects.get(user=request.user)
 
+    image_options = ["/defaults/estrela-cadente.png",
+                     "/defaults/flor-de-cerejeira.png",
+                     "/defaults/estrela.png",
+                     "/defaults/lua-cheia.png", 
+                     "/defaults/user.png",
+                     "/defaults/lua.png",
+                     "/defaults/planeta.png",
+                     "/defaults/flor-de-lotus.png",
+                     "/defaults/planetas.png"
+                     ]
     context = {
         'profile': profile,
         'username': request.user,
+        'image_options': image_options,
     }
         
     return render(request, 'profiles/edit_profile.html', context = context)

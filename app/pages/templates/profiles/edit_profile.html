@@ -3,14 +3,23 @@
 {% block title %} {{ username }} {% endblock title %}
 {% block content %}
 
-<form method="post" class="profile-info-edit" id="profile-edit">
+<form enctype="multipart/form-data" method="post" class="profile-info-edit" id="profile-edit" >
     {% csrf_token %}
         <div class="profile-header">
-            <div class="profile-icon-container">
-
+            <i class="fi fi-sr-paint"></i>
+            <div class="profile-icon-container" id="upload-profile-icon">
+                <img src={{profile.icon.url}} id="profile-icon" alt="">
+               
+                <input type="text" id="id-icon" name="icon" value={{profile.icon.url}} hidden>
+                
+            </div>
+            <div class="profile-icon-choices hide-choices" id="icon-choices">
+                {%for image in image_options%}
+                <img src="../../media{{image}}" alt={{image}} class="image-option" id="option-{{ forloop.counter }}">
+                {%endfor%}
             </div>
             <div class= "profile-user"> 
-                <h4><b><input type="text" id="username1" name="username" value={{username}} ></b></h4>           
+                <h4><b><input type="text" id="username-edit" name="username" value={{username}} ></b></h4>           
                 <span class="error" id="username-error"> </span>
             </div>
         </div>
@@ -77,5 +86,19 @@
     $(document).on('click','#username1', function(){
         $("#username-error").empty()
     })
+
+    $(document).on('click','#upload-profile-icon', function(){
+        elem = document.getElementById('icon-choices');
+        if(elem.classList.contains('hide-choices'))   elem.classList.remove('hide-choices');
+        else elem.classList.add('hide-choices');
+    })
+
+    $(document).on('click','.image-option', function(e){
+        let icon = document.getElementById('profile-icon')
+        let icon_input = document.getElementById('id-icon')
+        icon.src = e.currentTarget.src;
+        $('#id-icon').val(e.currentTarget.alt);
+    })
+
   </script>
 {% endblock %}

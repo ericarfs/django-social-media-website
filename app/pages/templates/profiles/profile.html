@@ -9,12 +9,12 @@
   <div class="posts-container">
     {%if userFound == "false" %}
       <div class="object-not-found">
-        <b>This profile doesn't exist !</b>
+        <b>This profile doesn't exist!</b>
       </div>
 
     {% elif request.user in profile.get_blocked_by_users%}
       <div class="object-not-found">
-        <b> {{username}} is blocked ! </b> 
+        <b> {{username}} is blocked! </b> 
           <button type="button" class="btn btn-posts"
                   hx-get="{%url 'pages:get-posts' username %}"
                   hx-trigger="click" 

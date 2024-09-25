@@ -3,14 +3,18 @@
    <div class="question-container">
         <div class="question-sender">
             <div class="author-icon">
-
+                {% if question.is_anon == False %}
+                <img src={{question.sent_by.icon.url}} alt="">
+                {% else %}
+                <img src="../media/defaults/user.png" alt="">
+                {% endif %} 
+                
             </div>
             <span class="username"> 
                 <b style="max-width: 100%;">
                 {% if question.is_anon == False %}
                 <a href="{% url 'pages:profile-detail' question.sent_by %}"> 
                     {{ question.sent_by}}    </a>
-
                 {% else %}
                     anonymous
                 {% endif %} 

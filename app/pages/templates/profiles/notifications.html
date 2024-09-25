@@ -15,7 +15,9 @@
         <div style="display: flex; justify-content: space-between;">
             <div class="question-sender">
                 <div class="author-icon">
-    
+                    <div class="author-icon">
+                        <img src={{value.notification.actor.icon.url}} alt="">
+                    </div>
                 </div>
                 <span class="username"> 
                     <b> {{ value.notification.actor}}   </b>      
@@ -34,7 +36,7 @@
     {% endfor %}
 {% else %}
     <div class="object-not-found">
-        <b>You don't have notifications !</b>
+        <b>You don't have notifications!</b>
     </div>
 {% endif %}
 </div>
